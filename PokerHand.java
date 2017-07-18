@@ -1,26 +1,36 @@
 import java.util.*;
+import java.lang.Exception;
 
 public class PokerHand {
     
     public static Scanner input = new Scanner(System.in);
     public static String inputLine = new String();
     public static String[] cards;
-    public static char[] seperators = new char['-', '/', ' '];
+    public static String[] seperators = {"-", "/", " "};
+    public static List<String> suits = new ArrayList<String>(Arrays.asList("C", "D", "H", "S"));
+    public static List<String> royals = new ArrayList<String>(Arrays.asList("A", "J", "Q", "K"));
+    public static String finalHand = new String();
     public static boolean invalid = false;
     
 
     public static void main(String[] args) {
         seperateCards();
         int i = 0;
+        String result = "";
         //check and fix each card in the hand
         while(!invalid && i < 5){
-            fixCard(cards[i]);
+            result = fixCard(cards[i]);
+            System.out.println("Fixed Card: " + i);
+            if(result.equals("invalid")){
+              invalid = true;
+            }
+            finalHand = finalHand + (result + " ");
             i++;
         }
         if(!invalid){
-            //print out the cards correctly.
+            System.out.println(finalHand);
         } else {
-            System.out.println("Invalid:" + inputLine);
+            System.out.println("Invalid: " + inputLine);
         }
         
     }
@@ -30,29 +40,42 @@ public class PokerHand {
     //determine if the cards are seperated properly.
     public static void seperateCards(){
         inputLine = input.nextLine();
-        for(int i = 0; i < seperators.length(); i++){
+        for(int i = 0; i < seperators.length; i++){
             String[] hand;
-            hand = line.spilt(seperators[i]);
-            if(hand.length() == 5){
+            hand = inputLine.split(seperators[i]);
+            if(hand.length == 5){
                 cards = hand;
             }
         }
         if(cards == null){
-            invalid = true;
+            System.out.println("cards were null");
+            invalid = true;            
         }
     }
     
-    public static fixCard(String card){
-        Scanner eval = new Scanner(card);
+    public static String fixCard(String card){
+        System.out.println("Fixing card: " + card);
         String finalValue;
         String finalSuit;
+        String value;
+        String suit;
+        
+        if(card.length() == 2){
+          value = String.valueOf(card.charAt(0));
+          suit = String.valueOf(card.charAt(1));
+        } else if(card.length() == 3){
+          value = String.valueOf(card.substring(0, 2));
+          suit = String.valueOf(card.charAt(2));
+        } else {
+          return "invalid";
+        }
         
         //if next value is a number.
-        if(eval.hasNextInt()){
-            int tokenNum = eval.next();
-            if( tokenNum < 11 || token == 1){
+        if(Character.isDigit(value.charAt(0))){
+            int numberValue = Integer.parseInt(value);
+            if( numberValue > 10 || numberValue == 1){
                 //switch the current value to its letter if required.
-                switch(tokenNum){
+                switch(numberValue){
                     case 1:
                         finalValue = "A";
                         break;
@@ -66,62 +89,38 @@ public class PokerHand {
                         finalValue = "K";
                         break;
                     default:
-                        invalid = true;
-                        break;
+                        return "invalid";
                 }
             } else {
-                finalValue = String.valueOf(int);
+                finalValue = String.valueOf(numberValue);
+                System.out.println(finalValue);
+                
             }
         //if the next value is not a number.
         } else {
-            //first checking that there actually is a character there.
-            if(eval.hasNext()){
-                String tokenStr = eval.next();
-                if(tokenStr.length() = 1){
-                    tokenStr.toUpperCase();
-                    switch(tokenStr){
-                        case "T":
-                            finalValue = "10";
-                            break;
-                        case "A":
-                        case "J":
-                        case "Q":
-                        case "K":
-                            finalValue = tokenStr;
-                            break;
-                        default:
-                            invalid = true;
-                            break;
+          value.toUpperCase();
+                    if(royals.contains(value)){
+                      finalValue = value;
+                    } else if(value == "T"){
+                      finalValue = "10";
+                    } else {
+                      return "invalid";
                     }
-                } else {
-                    //if the char did not match any of the valid options it is not a valid card.
-                    invalid = true;
-                }
-            } else {
-                //if there was no tokens representing the card, it is not a valid card.
-                invalid = true;
-            }
         }
         
-        //checking the next token after the value and setting the suit if applicable.
-        if(eval.hasNext()){
-            String tokenStr = eval.next();
-            tokenStr.toUpperCase();
-            switch(tokenStr){
-                case: "C"
-                case: "D"
-                case: "H"
-                case: "S"
-                    finalSuit = tokenStr;
-                    break;
-                default:
-                    invalid = true;
-                    break;
-            }
+        //correcting the suit
+        suit = suit.toUpperCase();
+        if(suits.contains(suit)){
+          finalSuit = suit;
         } else {
-            //no suit was representing in the card.
-            invalid = true;
+          return "invalid";
         }
+        
+        if(finalValue != null && finalSuit != null){
+          System.out.println(finalValue + finalSuit);
+          return (finalValue + finalSuit);
+        }
+        return "invalid";
     }
     
 }

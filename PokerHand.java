@@ -58,7 +58,6 @@ public class PokerHand {
       }
     }
     if(cards == null){
-      System.out.println("ERROR: Cards wern't represented properly");
       invalid = true;            
     }
   }
@@ -162,7 +161,6 @@ public class PokerHand {
     for(int i = 1; i < cards.length; i++){
       String currentCard = cards[i];
       int pos = i;
-      System.out.println("currentCard = " + currentCard);
       while(pos > 0 && cardIsLarger(currentCard, cards[pos-1])){
         cards[pos] = cards[pos-1];
         pos--;
@@ -193,17 +191,17 @@ public class PokerHand {
     //if the value of the card is the same as the one to the left of it.
     if(getCardValue(subject).equals(getCardValue(comparison))){
       //check the suit, if the card to the left has a smaller suit, make cardIsSmaller true.
-      if(getCardSuit(subject).charAt(0) < getCardSuit(comparison).charAt(0)){
+      if(getCardSuit(subject).charAt(0) > getCardSuit(comparison).charAt(0)){
         return false;
       }
       //if the card is a J, Q, K or A.
-    } else if((int)getCardValue(subject).charAt(0) > 4 || (int)getCardValue(comparison).charAt(0) > 4){
-      if(royals.indexOf(getCardValue(subject)) < royals.indexOf(getCardValue(comparison))){
+    } else if((int)getCardValue(subject).charAt(0) > 64 || (int)getCardValue(comparison).charAt(0) > 64){
+      if(royals.indexOf(getCardValue(subject)) > royals.indexOf(getCardValue(comparison))){
         return false;
       }
     } else {
       //if the value of the card is a number between 2-10 inclusive.
-      if(Integer.valueOf(getCardValue(subject)) < Integer.valueOf(getCardValue(comparison))){
+      if(Integer.valueOf(getCardValue(subject)) > Integer.valueOf(getCardValue(comparison))){
         return false;
       }
     }

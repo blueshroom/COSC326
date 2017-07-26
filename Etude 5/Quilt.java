@@ -7,11 +7,12 @@ public class Quilt extends JFrame {
   
   public static Scanner scan = new Scanner(System.in);
   public static ArrayList<double[]> squares = new ArrayList<double[]>();
+  public static int size = 1000;
   Screen s;
   
   public Quilt() {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setSize(800, 800);
+    setSize(size, size);
     setResizable(false);
     setTitle("A Patchwork Quilt");
     
@@ -22,7 +23,7 @@ public class Quilt extends JFrame {
     setLocationRelativeTo(null);
     setLayout(new GridLayout(1, 1, 0, 0));
     
-    s = new Screen(squares);
+    s = new Screen(squares, size);
     add(s);
     
     setVisible(true);

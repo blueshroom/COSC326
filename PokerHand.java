@@ -1,3 +1,8 @@
+/* Gavin Trebilcock
+ * Etude 3 - PokerHands
+ * PokerHand.java
+ */
+
 import java.util.*;
 import java.lang.Exception;
 
@@ -5,61 +10,70 @@ public class PokerHand {
   
   public static Scanner input = new Scanner(System.in);
   public static String inputLine = new String();
-  public static String[] cards;
   public static String[] seperators = {"-", "/", " "};
-  public static List<String> suits = new ArrayList<String>(Arrays.asList("C", "D", "H", "S"));
-  public static List<String> royals = new ArrayList<String>(Arrays.asList("J", "Q", "K", "A"));
+  public static List<String> suits = 
+    new ArrayList<String>(Arrays.asList("C", "D", "H", "S"));
+  public static List<String> royals = 
+    new ArrayList<String>(Arrays.asList("J", "Q", "K", "A"));
   public static boolean invalid = false;
   
   
   public static void main(String[] args) {
-    seperateCards();
-    int i = 0;
-    String fixedCard = "";
-    //check and fix each card in the hand
-    while(!invalid && i < 5){
-      fixedCard = fixCard(cards[i]);
-      if(fixedCard.equals("Invalid")){
+    while(input.hasNextLine()){
+      invalid = false;
+      
+      String[] cards = seperateCards();
+      if(cards == null){
         invalid = true;
       }
-      cards[i] = fixedCard;
-      i++;
-    }
-    if(!invalid){
-      if(checkDuplicates() == "Invalid"){
-        invalid = true;
+      
+      //check and fix each card in the hand
+      int i = 0;
+      String fixedCard = "";
+      while(!invalid && i < 5){
+        fixedCard = fixCard(cards[i]);
+        if(fixedCard.equals("Invalid")){
+          invalid = true;
+        }
+        cards[i] = fixedCard;
+        i++;
       }
-      System.out.println("Sorting");
-      sortHand();
+      
       if(!invalid){
-        //printing the final hand.
-        for(i = 0; i < cards.length; i++){
-          System.out.print(cards[i] + " ");
+        
+        if(checkDuplicates(cards) == "Invalid"){
+          invalid = true;
+        }
+        
+        sortHand(cards);
+        if(!invalid){
+          //printing the final hand.
+          for(i = 0; i < cards.length; i++){
+            System.out.print(cards[i] + " ");
+          }
+        } else {
+          System.out.println("Invalid: " + inputLine);
         }
       } else {
         System.out.println("Invalid: " + inputLine);
       }
-    } else {
-      System.out.println("Invalid: " + inputLine);
-    }
-    
+    }  
   }
   
   
   //seperates cards into an array.
   //determine if the cards are seperated properly.
-  public static void seperateCards(){
+  //returns the seperated cards in an array.
+  public static String[] seperateCards(){
     inputLine = input.nextLine();
     for(int i = 0; i < seperators.length; i++){
       String[] hand;
       hand = inputLine.split(seperators[i]);
       if(hand.length == 5){
-        cards = hand;
+        return hand;
       }
     }
-    if(cards == null){
-      invalid = true;            
-    }
+    return null;
   }
   
   
@@ -130,7 +144,7 @@ public class PokerHand {
     return "Invalid";
   }
   
-  public static String checkDuplicates(){
+  public static String checkDuplicates(String[] cards){
     for(int i = 0; i < cards.length; i++){
       int cardCounter = 1;
       String value = getCardValue(cards[i]);
@@ -156,7 +170,7 @@ public class PokerHand {
     return "Success";
   }
   
-  public static void sortHand(){
+  public static void sortHand(String[] cards){
     //determining if the card is smaller than the one to the left of it.
     for(int i = 1; i < cards.length; i++){
       String currentCard = cards[i];
@@ -167,6 +181,34 @@ public class PokerHand {
       }
       cards[pos] = currentCard;
     }
+  }
+  
+  //subject is the current card we are checking.
+  //comparison is the card we are comparing the subject to, 
+  //in order to see if the subject it smaller than it.
+  public static boolean cardIsLarger(String subject, String comparison){
+    //if the value of the card is the same as the one to the left of it.
+    if(getCardValue(subject).equals(getCardValue(comparison))){
+      //check the suit, if the card to the left has a smaller suit, 
+      //make cardIsSmaller true.
+      if(getCardSuit(subject).charAt(0) > getCardSuit(comparison).charAt(0)){
+        return false;
+      }
+      //if the card is a J, Q, K or A.
+    } else if((int)getCardValue(subject).charAt(0) > 64 || 
+              (int)getCardValue(comparison).charAt(0) > 64){
+      if(royals.indexOf(getCardValue(subject)) > 
+         royals.indexOf(getCardValue(comparison))){
+        return false;
+      }
+    } else {
+      //if the value of the card is a number between 2-10 inclusive.
+      if(Integer.valueOf(getCardValue(subject)) > 
+         Integer.valueOf(getCardValue(comparison))){
+        return false;
+      }
+    }
+    return true;
   }
   
   public static String getCardValue(String card){
@@ -183,29 +225,6 @@ public class PokerHand {
     } else {
       return card.substring(2);
     }
-  }
-  
-  //subject is the current card we are checking.
-  //comparison is the card we are comparing the subject to, to see if the subject it smaller than it.
-  public static boolean cardIsLarger(String subject, String comparison){
-    //if the value of the card is the same as the one to the left of it.
-    if(getCardValue(subject).equals(getCardValue(comparison))){
-      //check the suit, if the card to the left has a smaller suit, make cardIsSmaller true.
-      if(getCardSuit(subject).charAt(0) > getCardSuit(comparison).charAt(0)){
-        return false;
-      }
-      //if the card is a J, Q, K or A.
-    } else if((int)getCardValue(subject).charAt(0) > 64 || (int)getCardValue(comparison).charAt(0) > 64){
-      if(royals.indexOf(getCardValue(subject)) > royals.indexOf(getCardValue(comparison))){
-        return false;
-      }
-    } else {
-      //if the value of the card is a number between 2-10 inclusive.
-      if(Integer.valueOf(getCardValue(subject)) > Integer.valueOf(getCardValue(comparison))){
-        return false;
-      }
-    }
-    return true;
-  }
+  } 
   
 }

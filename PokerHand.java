@@ -4,7 +4,6 @@
  */
 
 import java.util.*;
-import java.lang.Exception;
 
 public class PokerHand {
   

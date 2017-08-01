@@ -7,7 +7,7 @@ public class Quilt extends JFrame {
   
   public static Scanner scan = new Scanner(System.in);
   public static ArrayList<double[]> squares = new ArrayList<double[]>();
-  public static int size = 1000;
+  public static int size = 500;
   Screen s;
   
   public Quilt() {
@@ -33,8 +33,9 @@ public class Quilt extends JFrame {
     while(scan.hasNextLine()){
       String input = scan.nextLine();
       String[] values = input.split(" ");
-      double[] square = new double[4];
-      for(int i = 0; i < square.length; i++){
+      double[] square = new double[5];
+      //not filling the last value as it is going to be used to hold the dimensions of that square later.
+      for(int i = 0; i < 4; i++){
         square[i] = Double.parseDouble(values[i]);
       }
       squares.add(square);

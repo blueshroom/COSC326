@@ -47,10 +47,6 @@ public class Screen extends JPanel {
   }
   
   public void paint(Graphics draw) { 
-    int topL = 0;
-    int topR = 0;
-    int botL = 0;
-    int botR = 0;
     int x = 0;
     int y = 0;
     //for each square in the arrayList, draw it on the page.

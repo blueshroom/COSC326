@@ -1,34 +1,42 @@
+import java.util.ArrayList;
+
 public class Vehicle {
   public static double desert =  2413.0;
   public static boolean finished = false;
   public static ArrayList<Stop> stops = new ArrayList<Stop>();
   
-  public Vehicle(int amount) {
-    double tank = 720.0;
-    double cans = 960.0;
-    double potential = tank/2;
+  public double tank;
+  public double cans;
+  public double potential;
+  public double currentPos;
+  public int dropCanAmount;
+  public int stopIndex;
+  
+  public Vehicle(int amount){
+    this.tank = 720.0;
+    this.cans = 960.0;
+    this.potential = tank/2;
     //variable that we will change for testing.
-    int dropCanAmount = amount;
-    int stopIndex = 0;
-    double currentPos;
+    this.dropCanAmount = amount;
+    this.stopIndex = 0;
+    this.currentPos = 0;
   }
   
   
   public static void main(String[] args) {
-    Vehicle vehicle = new Vechile(4);
+    Vehicle vehicle = new Vehicle(4);
     while(!finished){
       //have fuel to continue.
-      if(potential > 0){
-        
-        
+      if(vehicle.potential > 0){
+        //DO THIS NEXT ---> GOING FORWARD!
       } else {
         //ran out of fuel.
-        if(stops.contains(stopIndex+1)){
-          arrivedAtStop(vehicle, stops.get(stopIndex+1));
+        if(stops.contains(vehicle.stopIndex+1)){
+          arrivedAtStop(vehicle, stops.get(vehicle.stopIndex+1));
         }
         //going back to the start
-        for(int i = stopIndex; i > 0; i--){
-          Stop stop = stops.get(stopIndex);
+        for(int i = vehicle.stopIndex; i > 0; i--){
+          Stop stop = stops.get(vehicle.stopIndex);
           if(stop.fuel - stop.fuelRequired < 0){
             System.out.println("NOT ENOUGH FUEL, ERROR");
           } else {
@@ -39,29 +47,17 @@ public class Vehicle {
         vehicle.stopIndex = 0;
         vehicle.tank = 720;
         vehicle.cans = 960;
-        vehicle.potential = tank/2;
+        vehicle.potential = vehicle.tank/2;
         //now at the start (stop[0]).
       }
-           
-         
-           
-  
-  public static void newStop(){
+    }
   }
+                  
   
-  public static void pickup(Stop stop, double amount){
-    stop.takeFuel(amount);
-  }
-  
-  public static void dropOff(Stop stop, double amount){
-    stop.addFuel(amount);
-  }
-  
-  
-  public static void arrivedAtStop(Vechile vehicle, Stop stop){
+  public static void arrivedAtStop(Vehicle vehicle, Stop stop){
     //if there is enough fuel at the stop, fill the tank with fuel that can be used
-    if(stop.fuel > stop.fuelRequried){
-      if((stop.fuel - stop.fuelRequired) < (720 - tank)){
+    if(stop.fuel > stop.fuelRequired){
+      if((stop.fuel - stop.fuelRequired) < (720 - vehicle.tank)){
         vehicle.tank += (stop.fuel - stop.fuelRequired);
       } else {
         stop.fuel -= (720 - vehicle.tank);
@@ -81,7 +77,4 @@ public class Vehicle {
     
   }
 
-public static void driveBack(){
-  //take note of where we need to pick up fuel to get back.
-  //pick up fuel at correct spots and refuel when we get to the begginning.
 }

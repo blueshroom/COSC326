@@ -36,10 +36,10 @@ public class Vehicle {
           }
         }
         //fill up the car.
-        vehile.stopIndex = 0;
-        vehile.tank = 720;
-        vehile.cans = 960;
-        vehile.potential = tank/2;
+        vehicle.stopIndex = 0;
+        vehicle.tank = 720;
+        vehicle.cans = 960;
+        vehicle.potential = tank/2;
         //now at the start (stop[0]).
       }
            

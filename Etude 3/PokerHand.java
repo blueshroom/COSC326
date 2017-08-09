@@ -45,11 +45,17 @@ public class PokerHand {
         }
         
         sortHand(cards);
+        
         if(!invalid){
           //printing the final hand.
           for(i = 0; i < cards.length; i++){
-            System.out.print(cards[i] + " ");
+            if(i > 0){
+              System.out.print(" " + cards[i]);
+            } else {
+              System.out.print(cards[i]);
+            }
           }
+          System.out.println();
         } else {
           System.out.println("Invalid: " + inputLine);
         }
@@ -65,6 +71,17 @@ public class PokerHand {
   //returns the seperated cards in an array.
   public static String[] seperateCards(){
     inputLine = input.nextLine();
+    //dealing with the trailing seperator case.
+    boolean trailingSeperator = false;
+    for(int i = 0; i < seperators.length; i++){
+      if(String.valueOf(inputLine.charAt(inputLine.length()-1)).equals(seperators[i])){
+        trailingSeperator = true;
+      }
+    }
+    if(trailingSeperator){
+      return null;
+    }
+    //seperating the cards.
     for(int i = 0; i < seperators.length; i++){
       String[] hand;
       hand = inputLine.split(seperators[i]);
@@ -93,7 +110,7 @@ public class PokerHand {
       return "invalid";
     }
     
-    //if next value is a number.
+    //if the value is a number.
     if(Character.isDigit(value.charAt(0))){
       int numberValue = Integer.parseInt(value);
       if( numberValue > 10 || numberValue == 1){
@@ -117,9 +134,9 @@ public class PokerHand {
       } else {
         finalValue = String.valueOf(numberValue);        
       }
-      //if the next value is not a number.
+      //if the value is not a number.
     } else {
-      value.toUpperCase();
+      value = value.toUpperCase();
       if(royals.contains(value)){
         finalValue = value;
       } else if(value.equals("T")){

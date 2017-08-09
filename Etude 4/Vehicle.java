@@ -28,9 +28,37 @@ public class Vehicle {
     while(!finished){
       //have fuel to continue.
       if(vehicle.potential > 0){
-        //DO THIS NEXT ---> GOING FORWARD!
+        if(stops.contains(vehicle.stopIndex+1)){
+          //Stop at the next stop avaliable.
+          Stop stop = stops.get(vehicle.stopIndex+1);
+          if(vehicle.potential > stop.position){
+            vehicle.tank -= stop.position;
+            vehicle.potential = vehicle.tank/2;
+            arrivedAtStop(vehicle, stop);
+          } else {
+            //if we cant make it to the next stop, make a new one and add fuel to it.
+            vehicle.tank -= vehicle.potential;
+            Stop newStop = new Stop(stops.get(vehicle.stopIndex).position + vehicle.potential, vehicle.potential);
+            vehicle.potential = 0;
+            newStop.fuel = vehicle.cans;
+            vehicle.cans = 0;
+          }
+        } else {
+          //if we can make it to the end of the desert, do so.
+          if((stops.get(vehicle.stopIndex).position + vehicle.potential) > 2413){
+            vehicle.tank -= (2413 - stops.get(vehicle.stopIndex).position);
+            finished = true;
+          } else {
+            //create a new stop once we have reached a new distance.
+            vehicle.tank -= vehicle.potential;
+            Stop newStop = new Stop(stops.get(vehicle.stopIndex).position + vehicle.potential, vehicle.potential);
+            vehicle.potential = 0;
+            newStop.fuel = vehicle.cans;
+            vehicle.cans = 0;
+          }
+        }
       } else {
-        //ran out of fuel.
+        //ran out of potential.
         if(stops.contains(vehicle.stopIndex+1)){
           arrivedAtStop(vehicle, stops.get(vehicle.stopIndex+1));
         }
@@ -52,29 +80,31 @@ public class Vehicle {
       }
     }
   }
-                  
+  
   
   public static void arrivedAtStop(Vehicle vehicle, Stop stop){
     //if there is enough fuel at the stop, fill the tank with fuel that can be used
     if(stop.fuel > stop.fuelRequired){
       if((stop.fuel - stop.fuelRequired) < (720 - vehicle.tank)){
         vehicle.tank += (stop.fuel - stop.fuelRequired);
+        System.out.println("T" + (stop.fuel - stop.fuelRequired));
       } else {
+        System.out.println("T" + (720 - vehicle.tank));
         stop.fuel -= (720 - vehicle.tank);
         vehicle.tank = 720.0;
       }
       //if there is not enough fuel to return to the previous stop, top it up before moving forward.
     } else {
-      if(vehicle.cans > stop.fuelRequired){
-        if(vehicle.potential <= 0){
-          stop.fuel = vehicle.cans;
-          vehicle.cans = 0;
-        }
+      //if we can meet the requriments for the fuel we need to drop off, drop all of our cans and go back.
+      if(stop.fuelRequired > vehicle.cans){
+        stop.fuel += vehicle.cans;
+        vehicle.cans = 0;
+        vehicle.potential = 0;
+      } else {
         vehicle.cans -= (stop.fuelRequired - stop.fuel);
-        stop.fuel += (stop.fuelRequired - stop.fuel);
+        stop.fuel = stop.fuelRequired;
       }
     }
-    
   }
-
+  
 }

@@ -107,11 +107,16 @@ public class PokerHand {
       value = String.valueOf(card.substring(0, 2));
       suit = String.valueOf(card.charAt(2));
     } else {
-      return "invalid";
+      return "Invalid";
     }
     
     //if the value is a number.
     if(Character.isDigit(value.charAt(0))){
+      if(value.length() > 1){
+        if(!(Character.isDigit(value.charAt(1)))){
+          return "Invalid";
+        }
+      }
       int numberValue = Integer.parseInt(value);
       if( numberValue > 10 || numberValue == 1){
         //switch the current value to its letter if required.

@@ -17,10 +17,27 @@ public class RedAndGreen{
     for(int i = startNum; i < (numbers.size()+startNum); i++){
       findNearFactors(i);
     }
-    for(int i = startNum; i < (numbers.size()+startNum); i++){
+    for(int i = startNum; i < (numbers.size()+startNum-1); i++){
       setColour(i);
     }
-    
+    for(int i = 0; i < (endNum-startNum); i++){
+      String colour;
+      String factors = "";
+      String n = String.valueOf(startNum+i);
+      ArrayList number = numbers.get(i);
+      //find which colour to print
+      if((Integer)number.get(0) == 0){
+        colour = "G";
+      } else {
+        colour = "R";
+      }
+      //add the factors to the factors string for printing
+      for(int j = 1; j < number.size()-1; j++){
+        factors = factors + String.valueOf((Integer)number.get(i)) + ",";
+      }
+      
+      System.out.println(n + " " + factors + " " + colour);
+    }
   }
   
   public static void setColour(int num){
@@ -45,10 +62,13 @@ public class RedAndGreen{
         }
       }
     }
+    if(greenCount > redCount){
+      numbers.get(num).get(0) = 1;
+    }
   }
   
   public static void findNearFactors(int num){
-    for(int i = 0; i < num; i++){
+    for(int i = 1; i < num; i++){
       //if it is a direct factor
       if(num%i==0){
         numbers.get(num-startNum).add(i);

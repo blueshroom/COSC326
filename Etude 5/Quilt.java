@@ -12,7 +12,7 @@ public class Quilt extends JFrame {
   
   public Quilt() {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setSize(size, size);
+    setSize(size, size + 23);
     setResizable(false);
     setTitle("A Patchwork Quilt");
     

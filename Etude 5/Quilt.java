@@ -32,14 +32,18 @@ public class Quilt extends JFrame {
   public static void main(String[] args){
     while(scan.hasNextLine()){
       String input = scan.nextLine();
-      String[] values = input.split(" ");
-      double[] square = new double[4];
-      for(int i = 0; i < 4; i++){
-        square[i] = Double.parseDouble(values[i]);
+      if(!(input.trim().isEmpty())){
+        String[] values = input.split(" ");
+        double[] square = new double[4];
+        for(int i = 0; i < 4; i++){
+          square[i] = Double.parseDouble(values[i]);
+        }
+        squares.add(square);
       }
-      squares.add(square);
     }
-    new Quilt();
+    if(squares.size() > 0){
+      new Quilt();
+    }
   }
   
 }

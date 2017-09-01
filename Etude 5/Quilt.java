@@ -41,9 +41,7 @@ public class Quilt extends JFrame {
         squares.add(square);
       }
     }
-    if(squares.size() > 0){
-      new Quilt();
-    }
+    new Quilt();
   }
   
 }

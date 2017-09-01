@@ -19,35 +19,24 @@ public class Screen extends JPanel {
   public static int b;
   
   public Screen(ArrayList<double[]> squares, int size) {
-    //work out the size that the first square can be.
-    double totalPercent = 0;
-    for(int i = 0; i < squares.size(); i++){
-      totalPercent += squares.get(i)[0];
-    }
-    double hypot = Math.sqrt(((size*size) + (size*size)));
-    System.out.println("hypot: " + hypot);
-    System.out.println("percent: " + totalPercent);
-    dubScale = hypot/totalPercent;
-    //changing the 1% hypot length into the side lengths of the 1% square.
-    dubScale = Math.sqrt((dubScale*dubScale)/2);
-    //scale is the length and height of a square with 1% scale.
-    initialScale = Integer.valueOf((int) Math.round(dubScale));
-    scale = initialScale;
-    System.out.println("scale: " + initialScale);
-    
-//   sorting the quilt patterns. 
-//   for(int i = 0; i < squares.size(); i++){
-//        double currentValue = squares.get(i)[0];
-//        int pos = i;
-//        while(pos > 0 && squares.get(pos-1)[0] < currentValue){
-//            squares.get(pos)[0] = squares.get(pos-1)[0];
-//            pos--;
-//        }
-//        squares.get(pos)[0] = currentValue;
-//    }
-    this.squares = squares;
-    this.size = size;
-    repaint();
+    if(squares.size() > 0){
+      //work out the size that the first square can be.
+      double totalPercent = 0;
+      for(int i = 0; i < squares.size(); i++){
+        totalPercent += squares.get(i)[0];
+      }
+      double hypot = Math.sqrt(((size*size) + (size*size)));
+      dubScale = hypot/totalPercent;
+      //changing the 1% hypot length into the side lengths of the 1% square.
+      dubScale = Math.sqrt((dubScale*dubScale)/2);
+      //scale is the length and height of a square with 1% scale.
+      initialScale = Integer.valueOf((int) Math.round(dubScale));
+      scale = initialScale;
+      
+      this.squares = squares;
+      this.size = size;
+      repaint();
+    }    
   }
   
   public void paint(Graphics draw) { 
@@ -60,27 +49,25 @@ public class Screen extends JPanel {
     b = Integer.valueOf((int) Math.round(squares.get(set)[3]));
     draw.setColor(new Color(r, g, b));
     //draw the first square.
-    System.out.println("drawing");
-    System.out.println("SET: " + set + " SIZE: " + (Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale))));
     x = ((size/2)-(Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale))/2));
     y = ((size/2)-(Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale))/2));
     draw.fillRect(x, y, Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)), 
-                                        Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)));
+                  Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)));
     
     //finding the new dimesions for the next square.
     scale = Integer.valueOf((int) Math.round(initialScale*squares.get(0)[0]));
     
     //starting the recursion for drawing the squares.
-    drawSquares(x, y, Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)), set+1);
-    drawStack(draw);
-    
+    if(squares.size() > 1){
+      drawSquares(x, y, Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)), set+1);
+      drawStack(draw);
+    } 
   }
   
   public void drawSquares(int prevX, int prevY, int prevScale, int set){
     int x;
     int y;
     Square square;
-    System.out.println("SET: " + set + " SIZE: " + (Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale))));
     if(squares.size() > 1){
       for(int i = 0; i < 4; i++){  
         switch(i) {
@@ -91,9 +78,6 @@ public class Screen extends JPanel {
             r = Integer.valueOf((int) Math.round(squares.get(set)[1]));
             g = Integer.valueOf((int) Math.round(squares.get(set)[2]));
             b = Integer.valueOf((int) Math.round(squares.get(set)[3]));
-            //draw.setColor(new Color(r, g, b));
-            //draw.fillRect(x, y, Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)), 
-            //              Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)));
             square = new Square(x, y, Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)), r, g, b);
             if(drawStack.containsKey(set)){
               drawStack.get(set).add(square);
@@ -112,9 +96,6 @@ public class Screen extends JPanel {
             r = Integer.valueOf((int) Math.round(squares.get(set)[1]));
             g = Integer.valueOf((int) Math.round(squares.get(set)[2]));
             b = Integer.valueOf((int) Math.round(squares.get(set)[3]));
-            //draw.setColor(new Color(r, g, b));
-            //draw.fillRect(x, y, Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)), 
-            //              Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)));
             square = new Square(x, y, Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)), r, g, b);
             if(drawStack.containsKey(set)){
               drawStack.get(set).add(square);
@@ -133,9 +114,6 @@ public class Screen extends JPanel {
             r = Integer.valueOf((int) Math.round(squares.get(set)[1]));
             g = Integer.valueOf((int) Math.round(squares.get(set)[2]));
             b = Integer.valueOf((int) Math.round(squares.get(set)[3]));
-            //draw.setColor(new Color(r, g, b));
-            //draw.fillRect(x, y, Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)), 
-            //              Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)));
             square = new Square(x, y, Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)), r, g, b);
             if(drawStack.containsKey(set)){
               drawStack.get(set).add(square);
@@ -154,9 +132,6 @@ public class Screen extends JPanel {
             r = Integer.valueOf((int) Math.round(squares.get(set)[1]));
             g = Integer.valueOf((int) Math.round(squares.get(set)[2]));
             b = Integer.valueOf((int) Math.round(squares.get(set)[3]));
-            //draw.setColor(new Color(r, g, b));
-            //draw.fillRect(x, y, Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)), 
-            //              Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)));
             square = new Square(x, y, Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)), r, g, b);
             if(drawStack.containsKey(set)){
               drawStack.get(set).add(square);
@@ -175,6 +150,8 @@ public class Screen extends JPanel {
     }
   }
   
+  
+  //drawing the layers of the quilt
   public void drawStack(Graphics draw){
     int i = 1;
     while(drawStack.containsKey(i)){

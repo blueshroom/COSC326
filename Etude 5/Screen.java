@@ -40,28 +40,30 @@ public class Screen extends JPanel {
   }
   
   public void paint(Graphics draw) { 
-    int x = 0;
-    int y = 0;
-    int set = 0;
-    //for each square in the arrayList, draw it on the page.
-    r = Integer.valueOf((int) Math.round(squares.get(set)[1]));
-    g = Integer.valueOf((int) Math.round(squares.get(set)[2]));
-    b = Integer.valueOf((int) Math.round(squares.get(set)[3]));
-    draw.setColor(new Color(r, g, b));
-    //draw the first square.
-    x = ((size/2)-(Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale))/2));
-    y = ((size/2)-(Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale))/2));
-    draw.fillRect(x, y, Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)), 
-                  Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)));
-    
-    //finding the new dimesions for the next square.
-    scale = Integer.valueOf((int) Math.round(initialScale*squares.get(0)[0]));
-    
-    //starting the recursion for drawing the squares.
-    if(squares.size() > 1){
-      drawSquares(x, y, Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)), set+1);
-      drawStack(draw);
-    } 
+    if(squares.size() > 0){
+      int x = 0;
+      int y = 0;
+      int set = 0;
+      //for each square in the arrayList, draw it on the page.
+      r = Integer.valueOf((int) Math.round(squares.get(set)[1]));
+      g = Integer.valueOf((int) Math.round(squares.get(set)[2]));
+      b = Integer.valueOf((int) Math.round(squares.get(set)[3]));
+      draw.setColor(new Color(r, g, b));
+      //draw the first square.
+      x = ((size/2)-(Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale))/2));
+      y = ((size/2)-(Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale))/2));
+      draw.fillRect(x, y, Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)), 
+                    Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)));
+      
+      //finding the new dimesions for the next square.
+      scale = Integer.valueOf((int) Math.round(initialScale*squares.get(0)[0]));
+      
+      //starting the recursion for drawing the squares.
+      if(squares.size() > 1){
+        drawSquares(x, y, Integer.valueOf((int) Math.round(squares.get(set)[0]*initialScale)), set+1);
+        drawStack(draw);
+      }
+    }
   }
   
   public void drawSquares(int prevX, int prevY, int prevScale, int set){

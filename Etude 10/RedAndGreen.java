@@ -2,85 +2,66 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+//possibly use this for SUPERSIZE it.
 public class RedAndGreen{
-  public static HashMap<Integer, ArrayList<Integer>> numbers = new HashMap<Integer, ArrayList<Integer>>();
+  public static HashMap<Integer, ArrayList<Integer>> list = new HashMap<Integer, ArrayList<Integer>>();
+  public static HashMap<Integer, Character> colours = new HashMap<Integer, Character>();
   public static int startNum = 1;
-  public static int endNum = 8;
+  public static int endNum = 21;
   
   
   public static void main(String[] args){
     for(int i = startNum; i < endNum; i++){
-      numbers.put(i, new ArrayList<Integer>(Arrays.asList(1)));
+      list.put(i, new ArrayList<Integer>(Arrays.asList(1)));
     }
     
-    for(int i = startNum; i < (numbers.size()+startNum); i++){
+    for(int i = startNum; i < (list.size()+startNum); i++){
       findNearFactors(i);
     }
-    for(int i = startNum; i < (numbers.size()+startNum); i++){
-      String colour;
+    for(int i = startNum; i < (list.size()+startNum); i++){
+      calculateColour(i);
+    }
+    
+    for(int i = startNum; i < (list.size()+startNum); i++){
+      String colour = "";
       String factors = "";
       String n = String.valueOf(i);
-      ArrayList factorsList = numbers.get(i);
-      //for(int h = 0; h < factorsList.size(); h++){
-      //  System.out.println(factorsList.get(h));
-      //  System.out.println();
-      //}
-      
-      //find which colour to print
-      if(isGreen(i)){
-        colour = "G";
-      } else {
-        colour = "R";
-      }
+      ArrayList factorsList = list.get(i);
       
       //add the factors to the factors string for printing
       for(int j = 0; j < factorsList.size(); j++){
-        factors = factors + String.valueOf((Integer)factorsList.get(j)) + ",";
-      }     
-      System.out.println(n + " " + factors + " " + colour);     
+        factors = factors + String.valueOf((Integer)factorsList.get(j)) + ",";    
+      }
+      System.out.println(n + "  " + factors + " " + colours.get(i));
     }
   }
   
-  public static boolean isGreen(int num){
-    int greenCount = 0;
-    int redCount = 0;
-    ArrayList number = numbers.get(num);
-    //1 is green
-    if(num == 1){
-      return true;
-    }
-    //see if more of nums near factors are green, if so, change it to red
-    for(int i = 1; i < number.size(); i++){
-      if((Integer)number.get(i) == 1){
-        greenCount++;
-      } else {
-        //if the factor is green
-        if((Integer)(numbers.get((Integer)number.get(i)).get(0)) == 0){
-          greenCount++;
+  public static void calculateColour(int num){
+    int gCount = 0;
+    int rCount = 0;
+    colours.put(1, 'G');
+    for(int i = 2; i <= num; i++){
+      for(int j = 0; j < list.get(num).size(); j++){
+        if(colours.get(list.get(num).get(j)) == 'G'){
+          gCount++;
         } else {
-          //factor is red
-          redCount++;
+          rCount++;
         }
       }
+      if(gCount > rCount){
+        colours.put(i, 'R');
+      } else {
+        colours.put(i, 'G');
+      }
     }
-    //color is red
-    if(greenCount > redCount){
-      return false;
-    }
-    //colour is green
-    return true;
   }
   
   public static void findNearFactors(int num){
     for(int i = 2; i < num; i++){
       //if it is a direct factor
-      if(num%i==0){
-        numbers.get(num).add(i);
-      } else {
-        //if it is a near factor
-        if((num-1)%i==0){
-          numbers.get(num).add(i);
-        }
+      int factor = num/i;
+      if(!(list.get(num).contains(factor))){
+        list.get(num).add(factor);
       }
     }
   }

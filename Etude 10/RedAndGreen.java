@@ -65,7 +65,7 @@ public class RedAndGreen{
   }
   
   public static void findNearFactors(int num){
-    for(int i = 2; i < num; i++){
+    for(int i = 2; i < (num/2+1); i++){
       //if it is a direct factor
       int factor = num/i;
       if(!(list.get(num).contains(factor))){

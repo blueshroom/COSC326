@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 //possibly use this for SUPERSIZE it.
-public class RedAndGreen{
+public class RedAndGreenE{
   //public static HashMap<Integer, ArrayList<Integer>> list = new HashMap<Integer, ArrayList<Integer>>();
   public static HashMap<Integer, Integer> factorList = new HashMap<Integer, Integer>();
   public static HashMap<Integer, Character> colours = new HashMap<Integer, Character>();
@@ -32,7 +32,7 @@ public class RedAndGreen{
     if(num != 1){
       factorList.put(1, 1);
       gCount++;
-      for(int i = 2; i < num; i++){
+      for(int i = 2; i < (num/2+1); i++){
         int factor = num/i;
         //if it is a new factor
         if(!factorList.containsValue(factor)){

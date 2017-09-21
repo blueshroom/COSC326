@@ -10,11 +10,11 @@ public class Stop{
     
   }
   
-  public static void addFuel(double amount){
+  public void addFuel(double amount){
     fuel += amount;
   }
   
-  public static void takeFuel(double amount){
+  public void takeFuel(double amount){
     if(amount > fuel){
       //make error.
     } else {

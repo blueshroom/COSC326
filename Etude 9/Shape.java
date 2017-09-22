@@ -13,44 +13,75 @@ public class Shape{
     this.z = z;
   }
   
-  public boolean[][] addToCarpet(boolean[][] carpet){
-    int x = 0;
-    int y = 0;
-    int[] state = {x,y};
+  public boolean[][] addToCarpet(Carpet carpet){
     boolean success = false;
+    boolean failure = false;
+
     
-    while(!success){
-      state = findNextPos(carpet, state);    
-      
+    findNextPosDown(carpet);
+    while(!success){      
+      if(failure){
+        int[] tmp = {0, 0};
+        carpet.setState(tmp);
+        findNextPosAcross(carpet);
+        failure = false;
+      }
       switch(z){
-        // S block
+        // S Block
         case 1: 
           break;
-          // Z block
+        // Z Block
         case 2:
           break;
-          // T block   
+        // T Block   
         case 3:
           break;
-          // square
+        // SQ Block
         case 4:
-          if (!(checkDirection(carpet, state[0], state[1]+1)) && !(checkDirection(carpet, state[0]+1, state[1])) && !(checkDirection(carpet, state[0]+1, state[1]+1))){
-            //can insert
-            carpet[state[0]][state[1]] = true;
-            carpet[state[0]][state[1]+1] = true;
-            carpet[state[0]+1][state[1]] = true;
-            carpet[state[0]+1][state[1]+1] = true;
-            System.out.println("Added Shape!");
-            success = true;
-          }
-        break;
-        // Line Block
-        case 5:
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+1)) 
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1])) 
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]+1))){
+          //can insert
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+1] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]+1] = true;
+          System.out.println("Added Shape!");
+          success = true;
+        } else {
+          failure = true;
+        }
           break;
-          // J block
+        // I Block
+        case 5:
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+1)) 
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+2)) 
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+3))){
+          //can insert vertical rotation
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+1] = true;
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+2] = true;
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+3] = true;
+          System.out.println("Added Shape!");
+          success = true;
+        } else if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+1)) 
+                     && !(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+2)) 
+                     && !(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+3))){
+          //can insert horizontal rotation
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+1] = true;
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+2] = true;
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+3] = true;
+          System.out.println("Added Shape!");
+          success = true;
+        } else {
+          failure = true;
+        }
+        break;
+        // J Block
         case 6:
           break;
-          // L block
+        // L Block
         case 7:
           break; 
         default:
@@ -61,17 +92,35 @@ public class Shape{
   }
   
   //find an appropriate place to insert a piece
-  public int[] findNextPos(boolean[][] carpet, int[] state){
-    for(int x = state[0]; x < carpet.length; x++){
-      for(int y = state[1]; y < carpet[x].length; y++){
-        if(!carpet[x][y]){
-          state[0] = x;
-          state[1] = y;
-          return state;
+  public void findNextPosDown(Carpet carpet){
+    int y = carpet.getState()[0];
+    int x = carpet.getState()[1];
+    for(y = carpet.getState()[0]; y < carpet.getCarpet()[x].length; y++){
+      for(x = carpet.getState()[1]; x < carpet.getCarpet().length; x++){
+        if(!carpet.getCarpet()[x][y]){
+          int[] tmp = {x, y};
+          System.out.println(x +":"+ y);
+          carpet.setState(tmp);
+          return;
         }
       }
     }
-    return state;
+    return;
+  }
+  
+  //find an appropriate place to insert a piece
+  public void findNextPosAcross(Carpet carpet){
+    for(int x = carpet.getState()[0]; x < carpet.getCarpet().length; x++){
+      for(int y = carpet.getState()[1]; y < carpet.getCarpet()[x].length; y++){
+        if(!carpet.getCarpet()[x][y]){
+          int[] tmp = {x, y};
+          System.out.println(x +":"+ y);
+          carpet.setState(tmp);
+          return;
+        }
+      }
+    }
+    return;
   }
   
   public boolean checkDirection(boolean[][] carpet, int x, int y){

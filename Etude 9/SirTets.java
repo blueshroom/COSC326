@@ -1,3 +1,12 @@
+/*  S - 1
+ *  Z - 2
+ *  T - 3
+ * SQ - 4
+ *  I - 5
+ *  J - 6
+ *  L - 7
+ */ 
+
 import java.util.Scanner;
 
 public class SirTets{
@@ -13,19 +22,27 @@ public class SirTets{
     }
     
     Shape square = new Shape(4);
-    Carpet carpet = new Carpet(new boolean[x][y]);
+    Shape line = new Shape(5);
+    int[] state = {0, 0};
+    Carpet carpet = new Carpet(new boolean[x][y], state);
     carpet.printCarpet();
-    square.addToCarpet(carpet.getCarpet());
+    square.addToCarpet(carpet);
     carpet.printCarpet();
-    square.addToCarpet(carpet.getCarpet());
+    square.addToCarpet(carpet);
     carpet.printCarpet();
-    square.addToCarpet(carpet.getCarpet());
+    square.addToCarpet(carpet);
     carpet.printCarpet();
-    square.addToCarpet(carpet.getCarpet());
+    square.addToCarpet(carpet);
     carpet.printCarpet();
-    square.addToCarpet(carpet.getCarpet());
+    square.addToCarpet(carpet);
     carpet.printCarpet();
-    square.addToCarpet(carpet.getCarpet());
+    square.addToCarpet(carpet);
+    carpet.printCarpet();
+    square.addToCarpet(carpet);
+    carpet.printCarpet();
+    square.addToCarpet(carpet);
+    carpet.printCarpet();
+    square.addToCarpet(carpet);
     carpet.printCarpet();
   }
 }

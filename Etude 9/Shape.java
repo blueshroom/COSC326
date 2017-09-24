@@ -18,13 +18,15 @@ public class Shape{
     boolean failure = false;
 
     
-    findNextPosDown(carpet);
+    findNextPos(carpet);
+//    findNextPosDown(carpet);
     while(!success){      
       if(failure){
-        int[] tmp = {0, 0};
-        carpet.setState(tmp);
-        findNextPosAcross(carpet);
-        failure = false;
+        findNextPos(carpet);
+//        int[] tmp = {0, 0};
+//        carpet.setState(tmp);
+//        findNextPosAcross(carpet);
+//        failure = false;
       }
       switch(z){
         // S Block
@@ -122,6 +124,28 @@ public class Shape{
     }
     return;
   }
+  
+  //trying to find the smallest state that is still false.
+  //loop through all positions, if the x and y values are smaller or equal to the current smallest state, set it as the current.
+  public void findNextPos(Carpet carpet){
+    boolean foundFirst = false;
+    for(int x = 0; x < carpet.getCarpet().length; x++){
+      for(int y = 0; y < carpet.getCarpet()[x].length; y++){
+        if(!carpet.getCarpet()[x][y]){
+          if(!foundFirst){
+            int[] tmp = {x, y};
+            carpet.setState(tmp);
+            foundFirst = true;
+          }
+          if((carpet.getState()[0] + carpet.getState()[1]) >= (x + y)){
+            int[] tmp = {x, y};
+            carpet.setState(tmp);
+          }
+        }
+      }
+    }
+  }
+
   
   public boolean checkDirection(boolean[][] carpet, int x, int y){
     try{

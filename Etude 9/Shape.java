@@ -6,6 +6,9 @@
  *  J - 6
  *  L - 7
  */ 
+
+import java.util.ArrayList;
+
 public class Shape{
   private int z;
   
@@ -13,7 +16,8 @@ public class Shape{
     this.z = z;
   }
   
-  public boolean[][] addToCarpet(Carpet carpet){
+  public void addToCarpet(Carpet carpet){
+    ArrayList<int[]> triedPos = new ArrayList<int[]>();
     boolean success = false;
     boolean failure = false;
 
@@ -22,6 +26,8 @@ public class Shape{
 //    findNextPosDown(carpet);
     while(!success){      
       if(failure){
+        triedPos.add(carpet.getState());
+        carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
         findNextPos(carpet);
 //        int[] tmp = {0, 0};
 //        carpet.setState(tmp);
@@ -90,40 +96,42 @@ public class Shape{
           break;
       }
     }
-    return null;
+    for(int i = 0; i < triedPos.size(); i++){
+      carpet.getCarpet()[triedPos.get(i)[0]][triedPos.get(i)[1]] = false;
+    }
   }
   
-  //find an appropriate place to insert a piece
-  public void findNextPosDown(Carpet carpet){
-    int y = carpet.getState()[0];
-    int x = carpet.getState()[1];
-    for(y = carpet.getState()[0]; y < carpet.getCarpet()[x].length; y++){
-      for(x = carpet.getState()[1]; x < carpet.getCarpet().length; x++){
-        if(!carpet.getCarpet()[x][y]){
-          int[] tmp = {x, y};
-          System.out.println(x +":"+ y);
-          carpet.setState(tmp);
-          return;
-        }
-      }
-    }
-    return;
-  }
-  
-  //find an appropriate place to insert a piece
-  public void findNextPosAcross(Carpet carpet){
-    for(int x = carpet.getState()[0]; x < carpet.getCarpet().length; x++){
-      for(int y = carpet.getState()[1]; y < carpet.getCarpet()[x].length; y++){
-        if(!carpet.getCarpet()[x][y]){
-          int[] tmp = {x, y};
-          System.out.println(x +":"+ y);
-          carpet.setState(tmp);
-          return;
-        }
-      }
-    }
-    return;
-  }
+//  //find an appropriate place to insert a piece
+//  public void findNextPosDown(Carpet carpet){
+//    int y = carpet.getState()[0];
+//    int x = carpet.getState()[1];
+//    for(y = carpet.getState()[0]; y < carpet.getCarpet()[x].length; y++){
+//      for(x = carpet.getState()[1]; x < carpet.getCarpet().length; x++){
+//        if(!carpet.getCarpet()[x][y]){
+//          int[] tmp = {x, y};
+//          System.out.println(x +":"+ y);
+//          carpet.setState(tmp);
+//          return;
+//        }
+//      }
+//    }
+//    return;
+//  }
+//  
+//  //find an appropriate place to insert a piece
+//  public void findNextPosAcross(Carpet carpet){
+//    for(int x = carpet.getState()[0]; x < carpet.getCarpet().length; x++){
+//      for(int y = carpet.getState()[1]; y < carpet.getCarpet()[x].length; y++){
+//        if(!carpet.getCarpet()[x][y]){
+//          int[] tmp = {x, y};
+//          System.out.println(x +":"+ y);
+//          carpet.setState(tmp);
+//          return;
+//        }
+//      }
+//    }
+//    return;
+//  }
   
   //trying to find the smallest state that is still false.
   //loop through all positions, if the x and y values are smaller or equal to the current smallest state, set it as the current.
@@ -134,14 +142,17 @@ public class Shape{
         if(!carpet.getCarpet()[x][y]){
           if(!foundFirst){
             int[] tmp = {x, y};
+            //System.out.println("FOUND:" + x +":"+ y);
             carpet.setState(tmp);
             foundFirst = true;
           }
           if((carpet.getState()[0] + carpet.getState()[1]) >= (x + y)){
             int[] tmp = {x, y};
+            //System.out.println("FOUND:" + x +":"+ y);
             carpet.setState(tmp);
           }
         }
+        //System.out.println(x +":"+ y);
       }
     }
   }

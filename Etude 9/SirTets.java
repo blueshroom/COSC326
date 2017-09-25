@@ -34,11 +34,11 @@ public class SirTets{
     carpet.printCarpet();
     square.addToCarpet(carpet);
     carpet.printCarpet();
-    square.addToCarpet(carpet);
+    line.addToCarpet(carpet);
     carpet.printCarpet();
     square.addToCarpet(carpet);
     carpet.printCarpet();
-    square.addToCarpet(carpet);
+    line.addToCarpet(carpet);
     carpet.printCarpet();
     square.addToCarpet(carpet);
     carpet.printCarpet();

@@ -12,21 +12,27 @@ public class RedAndGreenE{
   
   public static void main(String[] args){
     Scanner scan = new Scanner(System.in);
-    long startTime = System.currentTimeMillis();
+    String line = "";
+    //long startTime = System.currentTimeMillis();
     
-    while(scan.hasNextInt()){
-      startNum = scan.nextInt();
-      endNum = scan.nextInt();
-    }
-    
-    if(!(startNum == endNum)){   
-      for(int i = startNum; i <= endNum; i++){
-        findNearFactorsE(i);
+    while(scan.hasNextLine()){
+      line = scan.nextLine();
+      if(!(line.charAt(0) == '/' || line.length() == 0)){
+        while(scan.hasNextInt()){
+          startNum = scan.nextInt();
+          endNum = scan.nextInt();
+        }
+        
+        if(!(startNum == endNum)){   
+          for(int i = startNum; i <= endNum; i++){
+            findNearFactorsE(i);
+          }
+          System.out.println(output);
+          //long endTime   = System.currentTimeMillis();
+          //long totalTime = endTime - startTime;
+          //System.out.println("MILLISECONDS: " + totalTime);
+        }
       }
-      System.out.println(output);
-      long endTime   = System.currentTimeMillis();
-      long totalTime = endTime - startTime;
-      //System.out.println("MILLISECONDS: " + totalTime);
     }
   }
 

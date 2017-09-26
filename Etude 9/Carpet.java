@@ -1,19 +1,19 @@
 public class Carpet {
-  public static boolean[][] carpet;
-  public static int x;
-  public static int y;
-  public static int[] state;
+  public boolean[][] carpet;
+  public int x;
+  public int y;
+  public int[] state;
   
   public Carpet(boolean[][] carpet, int[] state){
     this.carpet = carpet;
     this.state = state;
   }
   
-  public static boolean[][] getCarpet(){
+  public boolean[][] getCarpet(){
     return carpet;
   }
   
-  public static int[] getState(){
+  public int[] getState(){
     return state;
   }
   
@@ -21,7 +21,7 @@ public class Carpet {
     this.state = state;
   }
   
-  public static void printCarpet(){
+  public void printCarpet(){
     for(int i = 0; i<carpet.length; i++){
       for(int j = 0; j<carpet[i].length; j++){
         if(carpet[i][j]){

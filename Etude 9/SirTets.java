@@ -1,48 +1,51 @@
-/*  S - 1
- *  Z - 2
- *  T - 3
- * SQ - 4
- *  I - 5
- *  J - 6
- *  L - 7
- */ 
-
 import java.util.Scanner;
+import java.util.*;
 
 public class SirTets{
   public static int x;
   public static int y;
+  public TreeNode root;
   
+  public static void main(String []args){  
+    SirTets demo = new SirTets(); 
+  }
   
-   public static void main(String []args){
-   Scanner scan = new Scanner(System.in);
+  public SirTets() {
+    Scanner scan = new Scanner(System.in);
     while(scan.hasNextInt()){
       x = scan.nextInt();
       y = scan.nextInt();
     }
     
-    Shape square = new Shape(4);
-    Shape line = new Shape(5);
     int[] state = {0, 0};
     Carpet carpet = new Carpet(new boolean[x][y], state);
-    carpet.printCarpet();
-    square.addToCarpet(carpet);
-    carpet.printCarpet();
-    square.addToCarpet(carpet);
-    carpet.printCarpet();
-    square.addToCarpet(carpet);
-    carpet.printCarpet();
-    square.addToCarpet(carpet);
-    carpet.printCarpet();
-    line.addToCarpet(carpet);
-    carpet.printCarpet();
-    square.addToCarpet(carpet);
-    carpet.printCarpet();
-    line.addToCarpet(carpet);
-    carpet.printCarpet();
-    square.addToCarpet(carpet);
-    carpet.printCarpet();
-    square.addToCarpet(carpet);
-    carpet.printCarpet();
+    buildCarpet(carpet, new TreeNode(0));
   }
+
+  
+  public void buildCarpet(Carpet carpet, TreeNode root){
+    for(int i = 1; i < 19; i++){   
+      Shape shape = new Shape(i);
+      if(carpet.addShape(i)){
+        TreeNode child = new TreeNode(i);
+        root.addChild(child);
+        buildCarpet(carpet, child);
+      }
+    }
+  }
+  
+  class TreeNode {
+    private List<TreeNode> decisions = null;
+    private Integer path = null;
+    
+    public TreeNode(Integer path){
+      this.decisions = new ArrayList<TreeNode>();
+      this.path = path;
+    }
+    
+    public void addChild(TreeNode child){
+      decisions.add(child);
+    }
+  }
+  
 }

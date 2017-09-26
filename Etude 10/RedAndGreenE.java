@@ -11,14 +11,16 @@ public class RedAndGreenE{
   public static int endNum = 0;
   
   public static void main(String[] args){
-    Scanner scan = new Scanner(System.in);
+    Scanner scan = new Scanner(System.in);   
     String line = "";
+    Scanner lineScan = new Scanner(line);
     //long startTime = System.currentTimeMillis();
     
     while(scan.hasNextLine()){
       line = scan.nextLine();
-      if(!(line.charAt(0) == '/' || line.length() == 0)){
-        while(scan.hasNextInt()){
+      if(((line.charAt(0) == '/' || line.length() == 0))){
+        while(lineScan.hasNextInt()){
+          System.out.println("HERE");
           startNum = scan.nextInt();
           endNum = scan.nextInt();
         }

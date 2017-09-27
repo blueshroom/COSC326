@@ -33,10 +33,10 @@ public class SirTets{
   
   public void buildCarpet(Carpet carpet, TreeNode root){
     carpet.printCarpet();
-    for(int i = 1; i < 19; i++){   
-      Shape shape = new Shape(i);
+    //for(int i = 1; i < 19; i++){   
+      Shape shape = new Shape(2);
       if(shape.addToCarpet(carpet)){
-        TreeNode child = new TreeNode(i);
+        TreeNode child = new TreeNode(2);
         root.addChild(child);
         buildCarpet(carpet, child);
       }

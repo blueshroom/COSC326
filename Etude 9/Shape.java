@@ -11,27 +11,23 @@ public class Shape{
     ArrayList<int[]> triedPos = new ArrayList<int[]>();
     boolean success = false;
     boolean failure = false;
+    int failureCount = 0;
 
     
     findNextPos(carpet);
     while(!success){      
       if(failure){
+        failureCount++;
+        if(failureCount >= 19){
+          return false;
+        }
         triedPos.add(carpet.getState());
         carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
         findNextPos(carpet);
       }
       switch(z){
-        // S Block
-        case 1: 
-          break;
-        // Z Block
-        case 2:
-          break;
-        // T Block   
-        case 3:
-          break;
-        // SQ Block
-        case 4:
+        // Square Block
+        case 1:
           if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+1)) 
                 && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1])) 
                 && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]+1))){
@@ -46,19 +42,10 @@ public class Shape{
           failure = true;
         }
           break;
-        // I Block
-        case 5:
+          
+        // Line Horizontal Block
+        case 2:
           if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+1)) 
-                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+2)) 
-                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+3))){
-          //can insert vertical rotation
-          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
-          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+1] = true;
-          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+2] = true;
-          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+3] = true;
-          System.out.println("Added Shape!");
-          success = true;
-        } else if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+1)) 
                      && !(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+2)) 
                      && !(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+3))){
           //can insert horizontal rotation
@@ -71,13 +58,282 @@ public class Shape{
         } else {
           failure = true;
         }
-        break;
-        // J Block
-        case 6:
           break;
-        // L Block
+          
+        // Line Vertical Block   
+        case 3:
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+1)) 
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+2)) 
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+3))){
+          //can insert vertical rotation
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+1] = true;
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+2] = true;
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+3] = true;
+          System.out.println("Added Shape!");
+          success = true;
+        }else{
+          failure = true;
+        }
+          
+          break;
+          
+          // J Left 270' Block
+        case 4:
+          
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1 , carpet.getState()[1] ))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] + 2, carpet.getState()[1]))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] + 2, carpet.getState()[1] +1))) {
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+2][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+2][carpet.getState()[1]+1] = true;
+          System.out.println("Added Shape!");
+          success = true;
+        }else{
+          failure = true;
+        }
+        break;
+        
+        // J Neutral 0' Block
+        case 5:
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0] + 1, carpet.getState()[1])) && 
+              !(checkDirection(carpet.getCarpet(), carpet.getState()[0] + 1, carpet.getState()[1] - 1))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] + 1, carpet.getState()[1] - 2))) {
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0] + 1][carpet.getState()[1]-1] = true;
+          carpet.getCarpet()[carpet.getState()[0] + 1][carpet.getState()[1]-2] = true;
+          System.out.println("Added Shape!");
+          success = true;
+        }else{
+          failure = true;
+        }
+        
+        break;
+        
+        // J Right 90' Block
+        case 6:
+          
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+ 1 )) 
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] + 1, carpet.getState()[1] + 1))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] + 2, carpet.getState()[1] +1))) {
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+1] = true;
+          carpet.getCarpet()[carpet.getState()[0] + 1][carpet.getState()[1]+1] = true;
+          carpet.getCarpet()[carpet.getState()[0] + 2][carpet.getState()[1]+1] = true;
+          System.out.println("Added Shape!");
+          success = true;
+        }else{
+          failure = true;
+        }
+        
+        break;
+        // J Flip 180' Block
         case 7:
-          break; 
+          
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1 , carpet.getState()[1] ))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+1))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1] +2))) {
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+1] = true;
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+2] = true;
+        }
+          
+          //8 - 180 degree L
+        case 8:
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1] ))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+2 , carpet.getState()[1]))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1] +1))) {
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+2][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+1] = true;
+          System.out.println("Added Shape!");
+          success = true;
+        }else{
+          failure = true;
+        }
+        break;
+        
+        //9 - 180 degree L 
+        case 9:
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1] ))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1 , carpet.getState()[1]  + 1))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] + 1, carpet.getState()[1] +2))) {
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]+1] = true;
+          carpet.getCarpet()[carpet.getState()[0] + 1][carpet.getState()[1]+2] = true;
+          System.out.println("Added Shape!");
+          success = true;
+        }else{
+          failure = true;
+        }
+        break;
+        
+        //10 -  90 degree L
+        case 10:
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+2 , carpet.getState()[1] -1))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] +2, carpet.getState()[1]))) {
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+2][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0] + 2][carpet.getState()[1]-1] = true;
+          System.out.println("Added Shape!");
+          success = true;
+        }else{
+          failure = true;
+        }
+        break;
+        
+          //11 - Normal L
+        case 11:
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1] +1 ))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] , carpet.getState()[1]  + 2))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] + 1, carpet.getState()[1] +2))) {
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+1] = true;
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+2] = true;
+          carpet.getCarpet()[carpet.getState()[0] + 1][carpet.getState()[1]+2] = true;
+          System.out.println("Added Shape!");
+          success = true;
+        }else{
+          failure = true;
+        }
+        break;
+         // normal S Block
+        case 12:
+        if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0] + 1, carpet.getState()[1]))
+            && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] + 1, carpet.getState()[1] - 1))
+            && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] + 2, carpet.getState()[1] - 1))) {
+              //can insert
+              carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
+              carpet.getCarpet()[carpet.getState()[0] + 1][carpet.getState()[1]] = true;
+              carpet.getCarpet()[carpet.getState()[0] + 1][carpet.getState()[1] - 1] = true;
+              carpet.getCarpet()[carpet.getState()[0] + 2][carpet.getState()[1] - 1] = true;
+              System.out.println("Added Shape!");
+              success = true;
+              }else{
+          failure = true;
+        }
+              break;
+              
+            // S block rotation
+        case 13:
+             if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1] + 1))
+            && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] + 1, carpet.getState()[1] + 1))
+            && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] + 1, carpet.getState()[1] + 2))) {
+              carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
+              carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1] + 1] = true;
+              carpet.getCarpet()[carpet.getState()[0] + 1][carpet.getState()[1] + 1] = true;
+              carpet.getCarpet()[carpet.getState()[0] + 1][carpet.getState()[1] + 2] = true;
+              System.out.println("Added Shape!");
+              success = true;
+            } else {
+              failure = true;
+            }
+            break;
+            
+            //T Flip 180' Block
+        case 14:
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+2, carpet.getState()[1]))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]+1))) {
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+2][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]-1] = true;
+        System.out.println("Added Shape!");
+          success = true;
+        }else{
+          failure = true;
+        }
+          break;
+          
+          //T Left 270' Block
+        case 15:
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]+1))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]-1))) {
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]+1] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]-1] = true;
+        System.out.println("Added Shape!");
+          success = true;
+        }else{
+          failure = true;
+        }
+          break;
+          
+          //T Neutral 0' Block
+        case 16:
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+2, carpet.getState()[1]))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]-1))) {
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+2][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]-1] = true;
+        System.out.println("Added Shape!");
+          success = true;
+        }else{
+          failure = true;
+        }
+          break;
+          
+          //T Right 90' Block
+        case 17:
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+1))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]-1))) {
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+1] = true;
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]-1] = true;
+        System.out.println("Added Shape!");
+          success = true;
+        }else{
+          failure = true;
+        }
+          break;
+          
+          //Z Horizontal Block
+        case 18:
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1 , carpet.getState()[1]+1))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+2, carpet.getState()[1]+1))) {
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]+1] = true;
+          carpet.getCarpet()[carpet.getState()[0]+2][carpet.getState()[1]+1] = true;
+        System.out.println("Added Shape!");
+          success = true;
+        }else{
+          failure = true;
+        }
+          break;
+          
+          //Z Vertical Block
+        case 19:
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+1))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]-1))) {
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+1] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]-1] = true;
+        System.out.println("Added Shape!");
+          success = true;
+        }else{
+          failure = true;
+        }
+          break;
+          
+        
         default:
           break;
       }
@@ -85,6 +341,7 @@ public class Shape{
     for(int i = 0; i < triedPos.size(); i++){
       carpet.getCarpet()[triedPos.get(i)[0]][triedPos.get(i)[1]] = false;
     }
+    return true;
   }
   
   //trying to find the smallest state that is still false.

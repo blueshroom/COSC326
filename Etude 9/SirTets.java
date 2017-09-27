@@ -8,14 +8,22 @@ public class SirTets{
   
   public static void main(String []args){  
     SirTets demo = new SirTets(); 
+    demo.sirTets();
   }
   
-  public SirTets() {
+  public void sirTets() {
     Scanner scan = new Scanner(System.in);
     while(scan.hasNextInt()){
       x = scan.nextInt();
       y = scan.nextInt();
     }
+    
+    //if not divisable by 4, print zero
+    if(((x+y)%4 != 0)){
+      System.out.println(0);
+    }
+       
+    
     
     int[] state = {0, 0};
     Carpet carpet = new Carpet(new boolean[x][y], state);
@@ -24,9 +32,10 @@ public class SirTets{
 
   
   public void buildCarpet(Carpet carpet, TreeNode root){
+    carpet.printCarpet();
     for(int i = 1; i < 19; i++){   
       Shape shape = new Shape(i);
-      if(carpet.addShape(i)){
+      if(shape.addToCarpet(carpet)){
         TreeNode child = new TreeNode(i);
         root.addChild(child);
         buildCarpet(carpet, child);

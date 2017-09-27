@@ -11,13 +11,21 @@ public class RedAndGreenE{
   public static int endNum = 0;
   
   public static void main(String[] args){
-    Scanner scan = new Scanner(System.in);   
+    Scanner scan = new Scanner(System.in);
+    String line;
+       
     //long startTime = System.currentTimeMillis();
     
     while(scan.hasNextLine()){
-      if(scan.hasNextInt()){
-        startNum = scan.nextInt();
-        endNum = scan.nextInt();
+      line = scan.nextLine();
+      if(line.charAt(0) != '#'){
+        System.out.println(line);
+      }
+      Scanner lineScan = new Scanner(line);
+      if(lineScan.hasNextInt()){
+        startNum = lineScan.nextInt();
+        endNum = lineScan.nextInt();
+        output.append("#");
         
         if(!(startNum == endNum)){   
           for(int i = 0; i <= endNum; i++){
@@ -30,7 +38,7 @@ public class RedAndGreenE{
           //System.out.println("MILLISECONDS: " + totalTime);
         }
       } else {
-        scan.nextLine();
+        
       }
     }
   }

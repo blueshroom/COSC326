@@ -12,32 +12,28 @@ public class RedAndGreenE{
   
   public static void main(String[] args){
     Scanner scan = new Scanner(System.in);   
-    String line = "";
-    Scanner lineScan = new Scanner(line);
     //long startTime = System.currentTimeMillis();
     
     while(scan.hasNextLine()){
-      line = scan.nextLine();
-      if(((line.charAt(0) == '/' || line.length() == 0))){
-        while(lineScan.hasNextInt()){
-          System.out.println("HERE");
-          startNum = scan.nextInt();
-          endNum = scan.nextInt();
-        }
+      if(scan.hasNextInt()){
+        startNum = scan.nextInt();
+        endNum = scan.nextInt();
         
         if(!(startNum == endNum)){   
-          for(int i = startNum; i <= endNum; i++){
+          for(int i = 0; i <= endNum; i++){
             findNearFactorsE(i);
           }
           System.out.println(output);
+          output.delete(0, output.length());
           //long endTime   = System.currentTimeMillis();
           //long totalTime = endTime - startTime;
           //System.out.println("MILLISECONDS: " + totalTime);
         }
+      } else {
+        scan.nextLine();
       }
     }
   }
-
   
   
   
@@ -61,14 +57,20 @@ public class RedAndGreenE{
       }
       if(gCount > rCount){
         colours.put(num, 'R');
-        output.append('R');
+        if(num >= startNum){
+          output.append('R');
+        }
       } else {
         colours.put(num, 'G');
-        output.append('G');
+        if(num >= startNum){
+          output.append('G');
+        }
       }
     } else {
       colours.put(num, 'G');
-      output.append('G');
+      if(num >= startNum){
+        output.append('G');
+      }
     }
     factorList.clear();
   }

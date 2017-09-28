@@ -96,44 +96,96 @@ public class GoldInteger {
   
   public void subtract(String n){ 
     String result = "";
-    ArrayList<Integer> list = new ArrayList<Integer>();
+    boolean steal = false;
+    
+    //if the number we are subtracting is larger
     if(n.length() > d.length()){
       int diff = n.length() - d.length();
       for(int i = 0; i < d.length(); i++){
         int x = Character.getNumericValue(d.charAt(i)); 
         int y = Character.getNumericValue(n.charAt(i+diff));
-        int z = x - y;
-        list.add(z);
-      }
-      result = n.substring(0, diff-1);
-    } else {
-      int diff = d.length() - n.length();
-      for(int i = 0; i < n.length(); i++){
-        int x = Character.getNumericValue(d.charAt(i+diff)); 
-        int y = Character.getNumericValue(n.charAt(i));
-        int z = x - y;
-        list.add(z);
-      }
-      result = d.substring(0, diff);
-    }
-    
-    for(int i = 0; i < list.size()-1; i++){
-          int a = list.get(i)*10;
-          int b = list.get(i+1);
-          int c = a + b;
-          String cStr = Integer.toString(c);
-          if(cStr.length() > 2){
-            result = result + cStr.substring(1,2);
-            System.out.println(result);
-            int tmp = Integer.parseInt(cStr.substring(2));
-            list.set(i+1, tmp);
+        if(steal){
+            x -= 1;
+            steal = false;
+          }
+          if(x < y){
+            x += 10;
+            steal = true;
+            int z = x - y;
+            result = Integer.toString(z).substring(1,1) + result;
           } else {
-            result = result + cStr.substring(0,1);
-            System.out.println(result);
-            int tmp = Integer.parseInt(cStr.substring(1));
-            list.set(i+1, tmp);
-          }   
+            int z = x - y;
+            result = Integer.toString(z) + result;
+          }
       }
+      result = "-" + n.substring(0, diff-1) + result;
+    //if our current number is larger
+    } else if(n.length() < d.length()){
+      int diff = (d.length() - n.length());
+      for(int i = n.length()-1; i >= 0; i--){
+        int x = Character.getNumericValue(d.charAt(i)); 
+        int y = Character.getNumericValue(n.charAt(i));
+        if(steal){
+            x -= 1;
+            steal = false;
+          }
+          if(x < y){
+            x += 10;
+            steal = true;
+            int z = x - y;
+            result = Integer.toString(z).substring(1,1) + result;
+          } else {
+            int z = x - y;
+            result = Integer.toString(z) + result;
+          }
+      }
+      for(int i = n.length(); i < diff; i++){
+        if(steal){
+          int z = Character.getNumericValue(d.charAt(i));
+          z++;
+          result = Integer.toString(z) + result;
+          steal = false;
+        }
+        result = d.charAt(i) + result;
+      }
+    } else {
+      //if the numbers are the same length
+      int x = Character.getNumericValue(d.charAt(0)); 
+      int y = Character.getNumericValue(n.charAt(0));
+      //making sure the smaller number is the number getting subtracted
+      if(y > x){
+        for(int i = n.length()-1; i >= 0; i--){
+          x = Character.getNumericValue(n.charAt(i)); 
+          y = Character.getNumericValue(d.charAt(i));
+          if(steal){
+            x -= 1;
+            steal = false;
+          }
+          if(x < y){
+            x += 10;
+            steal = true;
+          }
+          int z = x - y;
+          result = Integer.toString(z) + result;
+        }
+        result = "-" + result;
+      } else {
+        for(int i = 0; i < n.length(); i++){
+          x = Character.getNumericValue(d.charAt(i)); 
+          y = Character.getNumericValue(n.charAt(i));
+          if(steal){
+            x -= 1;
+            steal = false;
+          }
+          if(x < y){
+            x += 10;
+            steal = true;
+          }
+          int z = x - y;
+          result = result + Integer.toString(z);
+        }
+      }
+    }
     d = result;
   }
     
@@ -186,7 +238,7 @@ public class GoldInteger {
     this.d = result; 
   } 
 } 
- 
+
    
  
 //  n = 6789 

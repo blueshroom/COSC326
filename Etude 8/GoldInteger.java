@@ -90,6 +90,57 @@ public class GoldInteger {
     } 
     d = result;
   } 
+  
+  
+  
+  
+  public void subtract(String n){ 
+    String result = "";
+    ArrayList<Integer> list = new ArrayList<Integer>();
+    if(n.length() > d.length()){
+      int diff = n.length() - d.length();
+      for(int i = 0; i < d.length(); i++){
+        int x = Character.getNumericValue(d.charAt(i)); 
+        int y = Character.getNumericValue(n.charAt(i+diff));
+        int z = x - y;
+        list.add(z);
+      }
+      result = n.substring(0, diff-1);
+    } else {
+      int diff = d.length() - n.length();
+      for(int i = 0; i < n.length(); i++){
+        int x = Character.getNumericValue(d.charAt(i+diff)); 
+        int y = Character.getNumericValue(n.charAt(i));
+        int z = x - y;
+        list.add(z);
+      }
+      result = d.substring(0, diff);
+    }
+    
+    for(int i = 0; i < list.size()-1; i++){
+          int a = list.get(i)*10;
+          int b = list.get(i+1);
+          int c = a + b;
+          System.out.println("C"+ c);
+          if(c.length() > 2){
+            result = result + Integer.toString(c).substring(0);
+            System.out.println(result);
+            int tmp = Integer.parseInt(Integer.toString(c).substring(1));
+            list.set(i+1, tmp);
+          } else {
+            result = result + Integer.toString(c).substring(0);
+            System.out.println(result);
+            int tmp = Integer.parseInt(Integer.toString(c).substring(1));
+            list.set(i+1, tmp);
+          }   
+      }
+    d = result;
+  }
+    
+  
+  
+  
+  
    
   public void multiply(String n){ 
     String result = ""; 

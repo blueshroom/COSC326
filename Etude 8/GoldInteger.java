@@ -121,16 +121,16 @@ public class GoldInteger {
           int a = list.get(i)*10;
           int b = list.get(i+1);
           int c = a + b;
-          System.out.println("C"+ c);
-          if(c.length() > 2){
-            result = result + Integer.toString(c).substring(0);
+          String cStr = Integer.toString(c);
+          if(cStr.length() > 2){
+            result = result + cStr.substring(1,2);
             System.out.println(result);
-            int tmp = Integer.parseInt(Integer.toString(c).substring(1));
+            int tmp = Integer.parseInt(cStr.substring(2));
             list.set(i+1, tmp);
           } else {
-            result = result + Integer.toString(c).substring(0);
+            result = result + cStr.substring(0,1);
             System.out.println(result);
-            int tmp = Integer.parseInt(Integer.toString(c).substring(1));
+            int tmp = Integer.parseInt(cStr.substring(1));
             list.set(i+1, tmp);
           }   
       }

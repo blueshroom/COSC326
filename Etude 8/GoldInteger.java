@@ -15,9 +15,10 @@ public class GoldInteger {
   public void add(String n){ 
     String result = ""; 
     boolean overflow = false; 
-    if(n.length() > d.length()){ 
-      for(int i = 0; i < d.length(); i++){ 
-        int x = Character.getNumericValue(n.charAt(i)); 
+    if(n.length() > d.length()){
+      int diff = n.length() - d.length();
+      for(int i = d.length()-1; i >= 0; i--){ 
+        int x = Character.getNumericValue(n.charAt(i+diff)); 
         int y = Character.getNumericValue(d.charAt(i)); 
         int z = x + y; 
         if(overflow){ 
@@ -27,7 +28,8 @@ public class GoldInteger {
         if(z > 9){ 
           overflow = true; 
         } 
-        result = Integer.toString(z).substring(1) + result; 
+        String number = Integer.toString(z);
+        result = number.substring(number.length()-1) + result;
       }       
       int i = (n.length() - d.length()); 
       if(i == 0 && overflow){ 
@@ -42,16 +44,18 @@ public class GoldInteger {
         if(z > 9){ 
           overflow = true; 
         } 
-        result = Integer.toString(z).substring(1) + result; 
+        String number = Integer.toString(z);
+        result = number.substring(number.length()-1) + result;
         i--; 
       } 
-      if(i > 0){ 
-        result = n.substring(0, i); 
+      if(i > 0){
+        result = n.substring(0, i) + result; 
       } 
-    } else { 
-      for(int i = 0; i < n.length(); i++){ 
+    } else {
+      int diff = d.length() - n.length();
+      for(int i = n.length()-1; i >= 0; i--){ 
         int x = Character.getNumericValue(n.charAt(i)); 
-        int y = Character.getNumericValue(d.charAt(i)); 
+        int y = Character.getNumericValue(d.charAt(i+diff)); 
         int z = x + y; 
         if(overflow){ 
           z++; 
@@ -59,8 +63,9 @@ public class GoldInteger {
         overflow = false; 
         if(z > 9){ 
           overflow = true; 
-        } 
-        result = Integer.toString(z).substring(1) + result; 
+        }
+        String number = Integer.toString(z);
+        result = number.substring(number.length()-1) + result; 
       }      
       int i = (d.length() - n.length()); 
       if(i == 0 && overflow){ 
@@ -75,11 +80,12 @@ public class GoldInteger {
         if(z > 9){ 
           overflow = true; 
         } 
-        result = Integer.toString(z).substring(1) + result; 
+        String number = Integer.toString(z);
+        result = number.substring(number.length()-1) + result; 
         i--; 
       } 
       if(i > 0){ 
-        result = d.substring(0, i); 
+        result = d.substring(0, i) + result; 
       } 
     } 
     d = result;

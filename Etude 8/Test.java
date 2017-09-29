@@ -7,7 +7,7 @@ public class Test{
     GoldInteger i = new GoldInteger("123456");
     GoldInteger j = new GoldInteger("1234");
     GoldInteger l = new GoldInteger("1234");
-    GoldInteger o = new GoldInteger("987656");
+    GoldInteger o = new GoldInteger("-987656");
     GoldInteger p = new GoldInteger("1234");
     GoldInteger q = new GoldInteger("12");
     n.multiply("6789");
@@ -20,14 +20,12 @@ public class Test{
     System.out.println(j.toString());
     l.add("123456");
     System.out.println(l.toString());
-    System.out.println();   
-    p.subtract("9786");
-    System.out.println(p.toString());
-    p.subtract("1234");
+    System.out.println("------------------");   
+    p.subtract("-1234");
     System.out.println(p.toString());
     o.subtract("1234");
     System.out.println(o.toString());
-    q.subtract("1234");
+    q.subtract("-1234");
     System.out.println(q.toString());
     
     

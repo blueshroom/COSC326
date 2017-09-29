@@ -91,102 +91,211 @@ public class GoldInteger {
     d = result;
   } 
   
-  
-  
-  
-  public void subtract(String n){ 
-    String result = "";
-    boolean steal = false;
-    
-    //if the number we are subtracting is larger
+  public String addOpo(String n){ 
+    String result = ""; 
+    boolean overflow = false; 
     if(n.length() > d.length()){
       int diff = n.length() - d.length();
-      for(int i = 0; i < d.length(); i++){
-        int x = Character.getNumericValue(d.charAt(i)); 
-        int y = Character.getNumericValue(n.charAt(i+diff));
-        if(steal){
-            x -= 1;
-            steal = false;
-          }
-          if(x < y){
-            x += 10;
-            steal = true;
-            int z = x - y;
-            result = Integer.toString(z).substring(1,1) + result;
-          } else {
-            int z = x - y;
-            result = Integer.toString(z) + result;
-          }
-      }
-      result = "-" + n.substring(0, diff-1) + result;
-    //if our current number is larger
-    } else if(n.length() < d.length()){
-      int diff = (d.length() - n.length());
-      for(int i = n.length()-1; i >= 0; i--){
-        int x = Character.getNumericValue(d.charAt(i)); 
-        int y = Character.getNumericValue(n.charAt(i));
-        if(steal){
-            x -= 1;
-            steal = false;
-          }
-          if(x < y){
-            x += 10;
-            steal = true;
-            int z = x - y;
-            result = Integer.toString(z).substring(1,1) + result;
-          } else {
-            int z = x - y;
-            result = Integer.toString(z) + result;
-          }
-      }
-      for(int i = n.length(); i < diff; i++){
-        if(steal){
-          int z = Character.getNumericValue(d.charAt(i));
-          z++;
-          result = Integer.toString(z) + result;
-          steal = false;
-        }
-        result = d.charAt(i) + result;
-      }
+      for(int i = d.length()-1; i >= 0; i--){ 
+        int x = Character.getNumericValue(n.charAt(i+diff)); 
+        int y = Character.getNumericValue(d.charAt(i)); 
+        int z = x + y; 
+        if(overflow){ 
+          z++; 
+        } 
+        overflow = false; 
+        if(z > 9){ 
+          overflow = true; 
+        } 
+        String number = Integer.toString(z);
+        result = number.substring(number.length()-1) + result;
+      }       
+      int i = (n.length() - d.length()); 
+      if(i == 0 && overflow){ 
+        result = "1" + result; 
+        return result;
+      } 
+      while(overflow && i > 0){ 
+        int z = Character.getNumericValue(n.charAt(i)); 
+        z++; 
+        overflow = false; 
+        if(z > 9){ 
+          overflow = true; 
+        } 
+        String number = Integer.toString(z);
+        result = number.substring(number.length()-1) + result;
+        i--; 
+      } 
+      if(i > 0){
+        result = n.substring(0, i) + result; 
+      } 
     } else {
-      //if the numbers are the same length
+      int diff = d.length() - n.length();
+      for(int i = n.length()-1; i >= 0; i--){ 
+        int x = Character.getNumericValue(n.charAt(i)); 
+        int y = Character.getNumericValue(d.charAt(i+diff)); 
+        int z = x + y; 
+        if(overflow){ 
+          z++; 
+        } 
+        overflow = false; 
+        if(z > 9){ 
+          overflow = true; 
+        }
+        String number = Integer.toString(z);
+        result = number.substring(number.length()-1) + result; 
+      }      
+      int i = (d.length() - n.length()); 
+      if(i == 0 && overflow){ 
+        result = "1" + result; 
+        return result;
+      } 
+      while(overflow && i > 0){ 
+        int z = Character.getNumericValue(d.charAt(i)); 
+        z++; 
+        overflow = false; 
+        if(z > 9){ 
+          overflow = true; 
+        } 
+        String number = Integer.toString(z);
+        result = number.substring(number.length()-1) + result; 
+        i--; 
+      } 
+      if(i > 0){ 
+        result = d.substring(0, i) + result; 
+      } 
+    } 
+    return result;
+  } 
+  
+  
+  public void subtract(String n){
+    String result = "";
+    boolean steal = false;
+    boolean rotation = false;
+    boolean currentLargest = false;
+    boolean currentNeg = false;
+    boolean subjectNeg = false;
+    //taking care of negatives
+    if(d.charAt(0) == '-'){
+      currentNeg = true;
+      d = d.substring(1);
+    }
+    if(n.charAt(0) == '-'){
+      subjectNeg = true;
+      n = n.substring(1);
+    }
+    
+    //if our number is the larger one
+    if(n.length() < d.length()){
+      int diff = d.length() - n.length();
+      currentLargest = true;
+      if(subjectNeg){
+        String origD = d;
+        add(n);
+        result = d;
+      } else if(currentNeg){
+        String origD = d;
+        add(n);
+        result = origD.substring(0, diff) + d;
+        result = "-" + d;
+      } else if(currentNeg && subjectNeg){
+        String origD = d;
+        add(n);
+        result = origD.substring(0, diff) + d;
+        result = "-" + d;
+      } else {
+        result = subtractByBorrowing(d.substring(diff), n);
+        result = d.substring(0, diff) + result;
+      }
+      //if they are both the same length  
+    } else if(n.length() == d.length()){
       int x = Character.getNumericValue(d.charAt(0)); 
       int y = Character.getNumericValue(n.charAt(0));
-      //making sure the smaller number is the number getting subtracted
-      if(y > x){
-        for(int i = n.length()-1; i >= 0; i--){
-          x = Character.getNumericValue(n.charAt(i)); 
-          y = Character.getNumericValue(d.charAt(i));
-          if(steal){
-            x -= 1;
-            steal = false;
-          }
-          if(x < y){
-            x += 10;
-            steal = true;
-          }
-          int z = x - y;
-          result = Integer.toString(z) + result;
+      if(x > y){
+        int diff = d.length() - n.length();
+        currentLargest = true;
+        if(subjectNeg){
+          add(n);
+          result = d;
+        } else if(currentNeg){
+          add(n);
+          result = "-" + d;
+        } else if(currentNeg && subjectNeg){
+          add(n);
+          result = "-" + d;
+        } else {
+          result = subtractByBorrowing(d.substring(diff), n);
         }
-        result = "-" + result;
       } else {
-        for(int i = 0; i < n.length(); i++){
-          x = Character.getNumericValue(d.charAt(i)); 
-          y = Character.getNumericValue(n.charAt(i));
-          if(steal){
-            x -= 1;
-            steal = false;
-          }
-          if(x < y){
-            x += 10;
-            steal = true;
-          }
-          int z = x - y;
-          result = result + Integer.toString(z);
+        int diff = n.length() - d.length();
+        currentLargest = true;
+        if(currentNeg){
+          n = addOpo(n);
+          result = n;
+        } else if(subjectNeg){
+          n = addOpo(n);
+          result = "-" + n;
+        } else if(currentNeg && subjectNeg){
+          n = addOpo(n);
+          result = "-" + n;
+        } else {
+          result = subtractByBorrowing(n.substring(diff), d);
         }
+        d = result;
+      }
+      //other number is the larger one  
+    } else {
+      int diff = n.length() - d.length();
+      currentLargest = true;
+      if(currentNeg){
+        String origN = n;
+        n = addOpo(n);
+        result = origN.substring(0, diff) + n;
+        result = n;
+      } else if(subjectNeg){
+        String origN = n;
+        n = addOpo(n);
+        result = origN.substring(0, diff) + n;
+        result = "-" + n;
+      } else if(currentNeg && subjectNeg){
+        String origN = n;
+        n = addOpo(n);
+        result = origN.substring(0, diff) + n;
+        result = "-" + n;
+      } else {
+        result = subtractByBorrowing(n.substring(diff), d);
+        result = n.substring(0, diff) + result;
+      }
+      d = result;
+    }
+  }
+    
+  
+  
+  
+  
+  public String subtractByBorrowing(String a, String b){ 
+    String result = "";
+    boolean steal = false;
+    for(int i = a.length()-1; i >= 0; i--){
+      int x = Character.getNumericValue(a.charAt(i)); 
+      int y = Character.getNumericValue(b.charAt(i));
+      if(steal){
+        x -= 1;
+        steal = false;
+      }
+      if(x < y){
+        x += 10;
+        steal = true;
+        int z = x - y;
+        result = Integer.toString(z) + result;
+      } else {
+        int z = x - y;
+        result = Integer.toString(z) + result;
       }
     }
-    d = result;
+    return result;
   }
     
   

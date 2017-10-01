@@ -9,6 +9,13 @@ public class Carpet {
     this.state = state;
   }
   
+  public Carpet(Carpet carpet){
+    this.carpet = carpet.carpet;
+    this.state = carpet.state;
+    this.x = carpet.x;
+    this.y = carpet.y;
+  }
+  
   public boolean[][] getCarpet(){
     return carpet;
   }

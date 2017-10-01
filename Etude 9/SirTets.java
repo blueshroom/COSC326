@@ -5,6 +5,7 @@ public class SirTets{
   public static int x;
   public static int y;
   public TreeNode root;
+  public int layers;
   
   public static void main(String []args){  
     SirTets demo = new SirTets(); 
@@ -24,19 +25,23 @@ public class SirTets{
     }
 
     int[] state = {0, 0};
+    layers = (x*y/4);
     Carpet carpet = new Carpet(new boolean[x][y], state);
-    buildCarpet(carpet, new TreeNode(0));
+    buildCarpet(carpet, new TreeNode(0), 0);
   }
 
   
-  public void buildCarpet(Carpet carpet, TreeNode root){
-    carpet.printCarpet();
-    for(int i = 1; i <= 19; i++){   
-      Shape shape = new Shape(i);
-      if(shape.addToCarpet(carpet)){
-        TreeNode child = new TreeNode(i);
-        root.addChild(child);
-        buildCarpet(carpet, child);
+  public void buildCarpet(Carpet carpet, TreeNode root, int layer){
+    carpet.printCarpet();  
+    if(layer <= layers){
+      for(int i = 1; i <= 19; i++){
+        System.out.println(layer + ":" + i);
+        Shape shape = new Shape(i);
+        if(shape.addToCarpet(carpet)){
+          TreeNode child = new TreeNode(i);
+          root.addChild(child);
+          buildCarpet(new Carpet(carpet), child, layer+1);
+        }
       }
     }
   }
@@ -44,6 +49,7 @@ public class SirTets{
   class TreeNode {
     private List<TreeNode> decisions = null;
     private Integer path = null;
+    private Integer value = null;
     
     public TreeNode(Integer path){
       this.decisions = new ArrayList<TreeNode>();

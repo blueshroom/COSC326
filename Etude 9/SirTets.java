@@ -19,12 +19,10 @@ public class SirTets{
     }
     
     //if not divisable by 4, print zero
-    if(((x+y)%4 != 0)){
+    if(((x*y)%4 != 0)){
       System.out.println(0);
     }
-       
-    
-    
+
     int[] state = {0, 0};
     Carpet carpet = new Carpet(new boolean[x][y], state);
     buildCarpet(carpet, new TreeNode(0));
@@ -33,10 +31,10 @@ public class SirTets{
   
   public void buildCarpet(Carpet carpet, TreeNode root){
     carpet.printCarpet();
-    //for(int i = 1; i < 19; i++){   
-      Shape shape = new Shape(2);
+    for(int i = 1; i <= 19; i++){   
+      Shape shape = new Shape(i);
       if(shape.addToCarpet(carpet)){
-        TreeNode child = new TreeNode(2);
+        TreeNode child = new TreeNode(i);
         root.addChild(child);
         buildCarpet(carpet, child);
       }

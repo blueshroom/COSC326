@@ -62,14 +62,14 @@ public class Shape{
           
         // Line Vertical Block   
         case 3:
-          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+1)) 
-                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+2)) 
-                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+3))){
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1])) 
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+2, carpet.getState()[1])) 
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+3, carpet.getState()[1]))){
           //can insert vertical rotation
           carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
-          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+1] = true;
-          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+2] = true;
-          carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+3] = true;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+2][carpet.getState()[1]] = true;
+          carpet.getCarpet()[carpet.getState()[0]+3][carpet.getState()[1]] = true;
           System.out.println("Added Shape!");
           success = true;
         }else{

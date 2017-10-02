@@ -47,17 +47,19 @@ public class SirTets{
   }
   
   class TreeNode {
-    private List<TreeNode> decisions = null;
-    private Integer path = null;
+    private List<TreeNode> children = null;
+    private TreeNode parent = null;
     private Integer value = null;
     
-    public TreeNode(Integer path){
-      this.decisions = new ArrayList<TreeNode>();
-      this.path = path;
+    public TreeNode(Integer value){
+      this.children = new ArrayList<TreeNode>();
+      this.value = value;
     }
     
     public void addChild(TreeNode child){
-      decisions.add(child);
+      child.parent = this;
+      children.add(child);
+      
     }
   }
   

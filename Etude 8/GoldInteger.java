@@ -345,7 +345,123 @@ public class GoldInteger {
       result = result.substring(1); 
     } 
     this.d = result; 
-  } 
+  }
+  
+  
+  //is our number less than the subject 'n'
+  public boolean isLessThan(String n){
+    if(d.charAt(0) == '-' && n.charAt(0) != '-'){
+      return true;
+    } else if(d.charAt(0) != '-' && n.charAt(0) == '-'){
+      return false;
+    } else {
+      //both numbers are either negative or not.
+      if(d.charAt(0) != '-'){
+        for(int i = 0; i < d.length(); i++){
+          int x = Character.getNumericValue(d.charAt(i)); 
+          int y = Character.getNumericValue(n.charAt(i));
+          if(x > y){
+            return false;
+          } else if(x < y){
+            return true;
+          }
+        }
+        //will get here if they are equal
+        return false;
+      } else {
+        //if they are negative, start at 1.
+        for(int i = 1; i < d.length(); i++){
+          int x = Character.getNumericValue(d.charAt(i)); 
+          int y = Character.getNumericValue(n.charAt(i));
+          if(x > y){
+            return true;
+          } else if(x < y){
+            return false;
+          }
+        }
+        //will get here if they are equal
+        return false;
+      }
+    }
+  }
+  
+  
+  
+  public boolean isGreaterThan(String n){
+    if(d.charAt(0) == '-' && n.charAt(0) != '-'){
+      return false;
+    } else if(d.charAt(0) != '-' && n.charAt(0) == '-'){
+      return true;
+    } else {
+      //both numbers are either negative or not.
+      if(d.charAt(0) != '-'){
+        for(int i = 0; i < d.length(); i++){
+          int x = Character.getNumericValue(d.charAt(i)); 
+          int y = Character.getNumericValue(n.charAt(i));
+          if(x > y){
+            return true;
+          } else if(x < y){
+            return false;
+          }
+        }
+        //will get here if they are equal
+        return false;
+      } else {
+        //if they are negative, start at 1.
+        for(int i = 1; i < d.length(); i++){
+          int x = Character.getNumericValue(d.charAt(i)); 
+          int y = Character.getNumericValue(n.charAt(i));
+          if(x > y){
+            return false;
+          } else if(x < y){
+            return true;
+          }
+        }
+        //will get here if they are equal
+        return false;
+      }
+    }
+  }
+
+  public boolean isEqualTo(String n){
+    if(d.charAt(0) == '-' && n.charAt(0) != '-'){
+      return false;
+    } else if(d.charAt(0) != '-' && n.charAt(0) == '-'){
+      return false;
+    } else {
+      //both numbers are either negative or not.
+      if(d.charAt(0) != '-'){
+        for(int i = 0; i < d.length(); i++){
+          int x = Character.getNumericValue(d.charAt(i)); 
+          int y = Character.getNumericValue(n.charAt(i));
+          if(x > y){
+            return false;
+          } else if(x < y){
+            return false;
+          }
+        }
+        //will get here if they are equal
+        return true;
+      } else {
+        //if they are negative, start at 1.
+        for(int i = 1; i < d.length(); i++){
+          int x = Character.getNumericValue(d.charAt(i)); 
+          int y = Character.getNumericValue(n.charAt(i));
+          if(x > y){
+            return false;
+          } else if(x < y){
+            return false;
+          }
+        }
+        //will get here if they are equal
+        return true;
+      }
+    }
+  }
+    
+  
+  
+  
 } 
 
    

@@ -8,15 +8,18 @@ public class JoinedUp{
     
     Scanner scan = new Scanner(System.in);
     while(scan.hasNext()){
-      words.add(scan.next());
+      String word = scan.next();
+      System.out.println(word);
+      words.add(word);
     }
     
     Collections.sort(words);
     
     char subject = 'a';
     firstIndex[subject-97] = 0;
+    subject += 1;
     for(int i = 0; i < words.size(); i++){
-      if(words.get(i).charAt(0) == subject+1){
+      if(words.get(i).charAt(0) == subject){
         subject += 1;
         firstIndex[subject-97] = i; 
       }

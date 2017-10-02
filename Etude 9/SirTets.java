@@ -2,10 +2,12 @@ import java.util.Scanner;
 import java.util.*;
 
 public class SirTets{
+  public static Carpet carpet;
   public static int x;
   public static int y;
   public TreeNode root;
   public int layers;
+  public int count = 0;
   
   public static void main(String []args){  
     SirTets demo = new SirTets(); 
@@ -21,29 +23,53 @@ public class SirTets{
     
     //if not divisable by 4, print zero
     if(((x*y)%4 != 0)){
-      System.out.println(0);
+      System.out.println("POSSIBILITIES: " + 0);
+      return;
     }
-
-    int[] state = {0, 0};
+    
+    
+    
+    
+    int[] state = {0, 0};  
     layers = (x*y/4);
-    Carpet carpet = new Carpet(new boolean[x][y], state);
-    buildCarpet(carpet, new TreeNode(0), 0);
+    carpet = new Carpet(new boolean[y][x], state);
+    buildCarpet(new TreeNode(0), 1);
+    
+    System.out.println("POSSIBLITIES: " + count);
   }
-
   
-  public void buildCarpet(Carpet carpet, TreeNode root, int layer){
-    carpet.printCarpet();  
+  
+  public void buildCarpet(TreeNode root, int layer){
+    boolean success = false;
+    int lastShape = 0;;
     if(layer <= layers){
+      Shape shape = new Shape();
+      
+      // for each piece
       for(int i = 1; i <= 19; i++){
-        System.out.println(layer + ":" + i);
-        Shape shape = new Shape(i);
-        if(shape.addToCarpet(carpet)){
+        //System.out.println(layer + ":" + i + " " + carpet.getCarpet());
+        
+        // if the boot fits
+        shape = new Shape(i);
+        if(shape.addToCarpet(carpet, true)){
+          carpet.printCarpet();
+          lastShape = i;
           TreeNode child = new TreeNode(i);
           root.addChild(child);
-          buildCarpet(new Carpet(carpet), child, layer+1);
+          // recurse
+          System.out.println(layer);
+          if(layer == layers){
+            count++;
+          }
+          buildCarpet(child, layer+1);
+          carpet.setStateAsBest();
+          shape = new Shape(lastShape);
+          shape.addToCarpet(carpet, false);
+          carpet.printCarpet();
         }
       }
     }
+    
   }
   
   class TreeNode {

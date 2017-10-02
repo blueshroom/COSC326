@@ -1,12 +1,17 @@
+import java.util.*;
+
 public class Carpet {
   public boolean[][] carpet;
   public int x;
   public int y;
   public int[] state;
+  public ArrayList<int[]> bestState; 
+  
   
   public Carpet(boolean[][] carpet, int[] state){
     this.carpet = carpet;
     this.state = state;
+    this.bestState = new ArrayList<int[]>();
   }
   
   public Carpet(Carpet carpet){
@@ -14,6 +19,7 @@ public class Carpet {
     this.state = carpet.state;
     this.x = carpet.x;
     this.y = carpet.y;
+    this.bestState = new ArrayList<int[]>();
   }
   
   public boolean[][] getCarpet(){
@@ -27,6 +33,15 @@ public class Carpet {
   public void setState(int[] state){
     this.state = state;
   }
+  
+  public void addBestState(){
+    bestState.add(state);
+  }
+  
+  public void setStateAsBest(){
+    state = bestState.remove(bestState.size()-1);
+  }
+  
   
   public void printCarpet(){
     for(int i = 0; i<carpet.length; i++){

@@ -54,7 +54,7 @@ public class SirTets{
         // if the boot fits
         shape = new Shape(i);
         if(shape.addToCarpet(carpet, true)){
-          carpet.printCarpet();
+          //carpet.printCarpet();
           lastShape = i;
           TreeNode child = new TreeNode(i);
           root.addChild(child);

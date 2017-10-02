@@ -3,6 +3,7 @@ import java.util.*;
 
 public class SirTets{
   public static Carpet carpet;
+  public static Carpet demoCarpet;
   public static int x;
   public static int y;
   public TreeNode root;
@@ -32,6 +33,7 @@ public class SirTets{
     
     int[] state = {0, 0};  
     layers = (x*y/4);
+    
     carpet = new Carpet(new boolean[y][x], state);
     buildCarpet(new TreeNode(0), 1);
     
@@ -57,7 +59,6 @@ public class SirTets{
           TreeNode child = new TreeNode(i);
           root.addChild(child);
           // recurse
-          System.out.println(layer);
           if(layer == layers){
             count++;
           }
@@ -65,7 +66,6 @@ public class SirTets{
           carpet.setStateAsBest();
           shape = new Shape(lastShape);
           shape.addToCarpet(carpet, false);
-          carpet.printCarpet();
         }
       }
     }

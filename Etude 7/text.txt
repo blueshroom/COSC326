@@ -1,6 +1,1 @@
-suffix
-fixture
-read
-bard
-ardent
-entire
+fixture bard ardent read fixage agent entire ire

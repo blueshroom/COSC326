@@ -8,7 +8,7 @@ public class SirTets{
   public static int y;
   public TreeNode root;
   public int layers;
-  public int count = 0;
+  public int count;
   
   public static void main(String []args){  
     SirTets demo = new SirTets(); 
@@ -17,27 +17,32 @@ public class SirTets{
   
   public void sirTets() {
     Scanner scan = new Scanner(System.in);
-    while(scan.hasNextInt()){
-      x = scan.nextInt();
-      y = scan.nextInt();
+    while(scan.hasNextLine()){
+      count = 0;
+      int x = 0;
+      int y = 0;
+      if(scan.hasNextInt()){
+        x = scan.nextInt();
+        y = scan.nextInt();
+      } else {
+        System.out.println("Syntax Error");
+      }
+      scan.nextLine();
+      
+      //if not divisable by 4, print zero
+      if(((x*y)%4 != 0)){
+        System.out.println("POSSIBILITIES: " + 0);
+      } else {
+       
+        int[] state = {0, 0};  
+        layers = (x*y/4);
+        
+        carpet = new Carpet(new boolean[y][x], state);
+        buildCarpet(new TreeNode(0), 1);
+        
+        System.out.println("POSSIBLITIES: " + count);
+      }
     }
-    
-    //if not divisable by 4, print zero
-    if(((x*y)%4 != 0)){
-      System.out.println("POSSIBILITIES: " + 0);
-      return;
-    }
-    
-    
-    
-    
-    int[] state = {0, 0};  
-    layers = (x*y/4);
-    
-    carpet = new Carpet(new boolean[y][x], state);
-    buildCarpet(new TreeNode(0), 1);
-    
-    System.out.println("POSSIBLITIES: " + count);
   }
   
   

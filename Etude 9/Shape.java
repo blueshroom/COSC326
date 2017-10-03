@@ -11,10 +11,8 @@ public class Shape{
   }
   
   public boolean addToCarpet(Carpet carpet, boolean change){
-    ArrayList<int[]> triedPos = new ArrayList<int[]>();
     boolean success = false;
     boolean failure = false;
-    int failureCount = 0;
     
     if(change){
       findNextPos(carpet);
@@ -24,13 +22,6 @@ public class Shape{
         if(failure){
           return false;
         }
-        failureCount++;
-        if(failureCount >= 19){
-          return false;
-        }
-        triedPos.add(carpet.getState());
-        carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = true;
-        findNextPos(carpet);
       }
       switch(z){
         // Square Block
@@ -100,9 +91,9 @@ public class Shape{
         // J Left 270' Block
         case 4:
           
-          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0] , carpet.getState()[1]+1 ))
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0] , carpet.getState()[1]+1))
                 && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] , carpet.getState()[1]+2))
-                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] + 1, carpet.getState()[1] +2)) || !(change)) {
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]+2)) || !(change)) {
           carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = change;
           carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+1] = change;
           carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+2] = change;
@@ -120,8 +111,8 @@ public class Shape{
         
         // J Neutral 0' Block
         case 5:
-          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1])) && 
-              !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+2, carpet.getState()[1]))
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1])) 
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+2, carpet.getState()[1]))
                 && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+2, carpet.getState()[1]-1)) || !(change)) {          
           carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = change;
           carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]] = change;
@@ -142,13 +133,13 @@ public class Shape{
         // J Right 90' Block
         case 6:
           
-          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1] )) 
-                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] + 1, carpet.getState()[1] + 1))
-                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] + 1, carpet.getState()[1] +2)) || !(change)) {
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1])) 
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]+1))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]+2)) || !(change)) {
           carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = change;
           carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]] = change;
-          carpet.getCarpet()[carpet.getState()[0] + 1][carpet.getState()[1]+1] = change;
-          carpet.getCarpet()[carpet.getState()[0] + 1][carpet.getState()[1]+2] = change;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]+1] = change;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]+2] = change;
           ////System.out.println((change ? "added" : "removed") + " Shape!: " + z);
           success = true;
           if(change){
@@ -163,7 +154,7 @@ public class Shape{
         // J Flip 180' Block
         case 7:
           
-          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0] , carpet.getState()[1]+1 ))
+          if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0] , carpet.getState()[1]+1))
                 && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]))
                 && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+2, carpet.getState()[1] )) || !(change)) {
           carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = change;
@@ -205,7 +196,7 @@ public class Shape{
         //9 - 180 degree L done
         case 9:
           if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+1))
-                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1 , carpet.getState()[1] +1))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1 , carpet.getState()[1]+1))
                 && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+2, carpet.getState()[1]+1)) || !(change)) {
           carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = change;
           carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+1] = change;
@@ -215,8 +206,7 @@ public class Shape{
           success = true;
           if(change){
             carpet.addBestState();
-          }
-          
+          }         
         }else{
           failure = true;
         }
@@ -235,8 +225,7 @@ public class Shape{
           success = true;
           if(change){
             carpet.addBestState();
-          }
-          
+          }         
         }else{
           failure = true;
         }
@@ -255,8 +244,7 @@ public class Shape{
           success = true;
           if(change){
             carpet.addBestState();
-          }
-          
+          }         
         }else{
           failure = true;
         }
@@ -264,19 +252,18 @@ public class Shape{
         // normal S Block
         case 12:
           if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+1))
-                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] - 1, carpet.getState()[1] + 1))
-                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] - 1, carpet.getState()[1] + 2)) || !(change)) {
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]-1, carpet.getState()[1]+1))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]-1, carpet.getState()[1]+2)) || !(change)) {
           //can insert
           carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = change;
           carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+1] = change;
-          carpet.getCarpet()[carpet.getState()[0] - 1][carpet.getState()[1] + 1] = change;
-          carpet.getCarpet()[carpet.getState()[0] - 1][carpet.getState()[1] + 2] = change;
+          carpet.getCarpet()[carpet.getState()[0]-1][carpet.getState()[1]+1] = change;
+          carpet.getCarpet()[carpet.getState()[0]-1][carpet.getState()[1]+2] = change;
           //System.out.println((change ? "added" : "removed") + " Shape!: " + z);
           success = true;
           if(change){
             carpet.addBestState();
-          }
-          
+          }         
         }else{
           failure = true;
         }
@@ -285,12 +272,12 @@ public class Shape{
         // S block rotation
         case 13:
           if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]))
-                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] + 1, carpet.getState()[1] + 1))
-                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0] + 2, carpet.getState()[1] + 1)) || !(change)) {
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]+1))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+2, carpet.getState()[1]+1)) || !(change)) {
           carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = change;
           carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]] = change;
-          carpet.getCarpet()[carpet.getState()[0] + 1][carpet.getState()[1] + 1] = change;
-          carpet.getCarpet()[carpet.getState()[0] + 2][carpet.getState()[1] + 1] = change;
+          carpet.getCarpet()[carpet.getState()[0]+1][carpet.getState()[1]+1] = change;
+          carpet.getCarpet()[carpet.getState()[0]+2][carpet.getState()[1]+1] = change;
           //System.out.println((change ? "added" : "removed") + " Shape!: " + z);
           success = true;
           if(change){
@@ -315,8 +302,7 @@ public class Shape{
           success = true;
           if(change){
             carpet.addBestState();
-          }
-          
+          }        
         }else{
           failure = true;
         }
@@ -335,8 +321,7 @@ public class Shape{
           success = true;
           if(change){
             carpet.addBestState();
-          }
-          
+          }         
         }else{
           failure = true;
         }
@@ -355,8 +340,7 @@ public class Shape{
           success = true;
           if(change){
             carpet.addBestState();
-          }
-          
+          }         
         }else{
           failure = true;
         }
@@ -375,8 +359,7 @@ public class Shape{
           success = true;
           if(change){
             carpet.addBestState();
-          }
-          
+          }          
         }else{
           failure = true;
         }
@@ -385,7 +368,7 @@ public class Shape{
         //Z Horizontal Block
         case 18:
           if (!(checkDirection(carpet.getCarpet(), carpet.getState()[0], carpet.getState()[1]+1))
-                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1 , carpet.getState()[1]+1))
+                && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]+1))
                 && !(checkDirection(carpet.getCarpet(), carpet.getState()[0]+1, carpet.getState()[1]+2)) || !(change)) {
           carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]] = change;
           carpet.getCarpet()[carpet.getState()[0]][carpet.getState()[1]+1] = change;
@@ -395,8 +378,7 @@ public class Shape{
           success = true;
           if(change){
             carpet.addBestState();
-          }
-          
+          }    
         }else{
           failure = true;
         }
@@ -415,21 +397,14 @@ public class Shape{
           success = true;
           if(change){
             carpet.addBestState();
-          }
-          
+          }          
         }else{
           failure = true;
         }
-        break;
-        
+        break;  
         
         default:
           break;
-      }
-    }
-    if(change){
-      for(int i = 0; i < triedPos.size(); i++){
-        carpet.getCarpet()[triedPos.get(i)[0]][triedPos.get(i)[1]] = false;
       }
     }
     return true;

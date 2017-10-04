@@ -172,7 +172,7 @@ public class GoldInteger {
         result = "1" + result;
         d = result;
         return; 
-      } 
+      }
       while(overflow && i > 0){ 
         int z = Character.getNumericValue(n.charAt(i)); 
         z++; 
@@ -210,7 +210,7 @@ public class GoldInteger {
         return;
       } 
       while(overflow && i > 0){ 
-        int z = Character.getNumericValue(d.charAt(i)); 
+        int z = Character.getNumericValue(d.charAt(i-1)); 
         z++; 
         overflow = false; 
         if(z > 9){ 
@@ -219,11 +219,11 @@ public class GoldInteger {
         String number = Integer.toString(z);
         result = number.substring(number.length()-1) + result; 
         i--; 
-      } 
+      }
       if(i > 0){ 
         result = d.substring(0, i) + result; 
       } 
-    } 
+    }
     d = result;
   } 
   

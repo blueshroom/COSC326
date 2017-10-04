@@ -1,8 +1,9 @@
 import java.util.*; 
    
-public class GoldInteger { 
+public class GoldInteger {
    
-  private String d; 
+  private String d;
+  private String n;
    
   public GoldInteger(String digits){ 
     this.d = digits; 
@@ -25,6 +26,11 @@ public class GoldInteger {
     } else {
       //both numbers are either negative or not.
       if(d.charAt(0) != '-'){
+        if(d.length() > n.length()){
+          return false;
+        } else if(d.length() < n.length()){
+          return true;
+        }
         for(int i = 0; i < d.length(); i++){
           int x = Character.getNumericValue(d.charAt(i)); 
           int y = Character.getNumericValue(n.charAt(i));
@@ -38,6 +44,11 @@ public class GoldInteger {
         return false;
       } else {
         //if they are negative, start at 1.
+        if(d.length() > n.length()){
+          return true;
+        } else if(d.length() < n.length()){
+          return false;
+        }
         for(int i = 1; i < d.length(); i++){
           int x = Character.getNumericValue(d.charAt(i)); 
           int y = Character.getNumericValue(n.charAt(i));
@@ -61,8 +72,13 @@ public class GoldInteger {
     } else if(d.charAt(0) != '-' && n.charAt(0) == '-'){
       return true;
     } else {
-      //both numbers are either negative or not.
+      //both numbers are positive
       if(d.charAt(0) != '-'){
+        if(d.length() > n.length()){
+          return true;
+        } else if(d.length() < n.length()){
+          return false;
+        }
         for(int i = 0; i < d.length(); i++){
           int x = Character.getNumericValue(d.charAt(i)); 
           int y = Character.getNumericValue(n.charAt(i));
@@ -76,6 +92,11 @@ public class GoldInteger {
         return false;
       } else {
         //if they are negative, start at 1.
+        if(d.length() > n.length()){
+          return false;
+        } else if(d.length() < n.length()){
+          return true;
+        }
         for(int i = 1; i < d.length(); i++){
           int x = Character.getNumericValue(d.charAt(i)); 
           int y = Character.getNumericValue(n.charAt(i));
@@ -320,7 +341,7 @@ public class GoldInteger {
         result = origD.substring(0, diff) + d;
         result = "-" + d;
       } else {
-        result = subtractByBorrowing(d.substring(diff), n);
+        result = subtractByBorrowing(d.substring(diff), n, 1);
         result = d.substring(0, diff) + result;
       }
       d = result;
@@ -341,7 +362,8 @@ public class GoldInteger {
           add(n);
           result = d;
         } else {
-          result = subtractByBorrowing(d.substring(diff), n);
+          this.n = n;
+          result = subtractByBorrowing(d.substring(diff), n, 0);
         }
       } else {
         int diff = n.length() - d.length();
@@ -357,7 +379,8 @@ public class GoldInteger {
           result = "-" + n;
           
         } else {
-          result = subtractByBorrowing(n.substring(diff), d);
+          this.n = n;
+          result = subtractByBorrowing(n.substring(diff), d, 0);
         }
         d = result;
       }
@@ -381,8 +404,9 @@ public class GoldInteger {
         result = origN.substring(0, diff) + n;
         result = "-" + n;
       } else {
-        result = subtractByBorrowing(n.substring(diff), d);
-        result = n.substring(0, diff) + result;
+        this.n = n;
+        result = subtractByBorrowing(n.substring(diff), d, 2);
+        result = this.n.substring(0, diff) + result;
       }
       d = result;
     }
@@ -391,8 +415,8 @@ public class GoldInteger {
   
   
   
-  
-  public String subtractByBorrowing(String a, String b){ 
+  //stealFrom 0 = none, stealFrom 1 = d, stealFrom 2 = n
+  public String subtractByBorrowing(String a, String b, int change){ 
     String result = "";
     boolean steal = false;
     for(int i = a.length()-1; i >= 0; i--){
@@ -410,6 +434,29 @@ public class GoldInteger {
       } else {
         int z = x - y;
         result = Integer.toString(z) + result;
+      }
+    }
+    System.out.println("-----------");
+    System.out.println(result);
+    int stolen;
+    if(steal){
+      switch(change){
+        case 1:
+          System.out.println(d);
+          stolen = Character.getNumericValue(d.charAt(a.length()-1));
+          stolen -= 1;
+          d = (d.substring(0, a.length()-1) + stolen);
+          System.out.println(d);
+          break;
+        case 2:
+          System.out.println(n);
+          stolen = Character.getNumericValue(n.charAt(a.length()-1));
+          stolen -= 1;
+          n = (n.substring(0, a.length()-1) + stolen);
+          System.out.println(n);
+          break;
+        default:
+          break;
       }
     }
     return result;

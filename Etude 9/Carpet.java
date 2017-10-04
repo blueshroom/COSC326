@@ -1,11 +1,11 @@
 import java.util.*;
 
 public class Carpet {
-  public boolean[][] carpet;
-  public int x;
-  public int y;
-  public int[] state;
-  public ArrayList<int[]> bestState; 
+  public static boolean[][] carpet;
+  public static int x;
+  public static int y;
+  public static int[] state;
+  public static ArrayList<int[]> bestState; 
   
   
   public Carpet(boolean[][] carpet, int[] state){

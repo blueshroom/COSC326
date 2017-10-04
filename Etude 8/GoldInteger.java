@@ -410,6 +410,11 @@ public class GoldInteger {
       }
       d = result;
     }
+    //removing unessary zeros off the front
+    int i = 0;
+    while(d.charAt(i) == '0' && d.length() > 1){
+      d = d.substring(i+1);
+    }
   }
     
   
@@ -436,24 +441,18 @@ public class GoldInteger {
         result = Integer.toString(z) + result;
       }
     }
-    System.out.println("-----------");
-    System.out.println(result);
     int stolen;
     if(steal){
       switch(change){
         case 1:
-          System.out.println(d);
-          stolen = Character.getNumericValue(d.charAt(a.length()-1));
+          stolen = Character.getNumericValue(d.charAt((d.length() - result.length())-1));
           stolen -= 1;
-          d = (d.substring(0, a.length()-1) + stolen);
-          System.out.println(d);
+          d = (stolen + d.substring(0, result.length()-1));
           break;
         case 2:
-          System.out.println(n);
-          stolen = Character.getNumericValue(n.charAt(a.length()-1));
+          stolen = Character.getNumericValue(n.charAt((n.length() - result.length())-1));
           stolen -= 1;
-          n = (n.substring(0, a.length()-1) + stolen);
-          System.out.println(n);
+          n = (stolen + n.substring(0, result.length()-1));
           break;
         default:
           break;

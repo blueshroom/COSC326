@@ -41,11 +41,27 @@ public class JoinedUp{
     
     findLinks(inputWord, new ArrayList<String>());
     
-    //printing the results
-    System.out.println("------------");
-    for(int j = 0; j < singleLinkedOptions.get(0).size(); j++){
-      System.out.println(singleLinkedOptions.get(0).get(j));
+    //printing the best results
+    int smallest = words.size();
+    ArrayList<String> smallestLink = new ArrayList<String>();
+    for(int i = 0; i < singleLinkedOptions.size(); i++){
+      if(singleLinkedOptions.get(i).size() < smallest){
+        smallest = singleLinkedOptions.get(i).size();
+        smallestLink = singleLinkedOptions.get(i);
+      }
     }
+    System.out.println("--------RESULT--------");
+    if(smallest != words.size()){
+      System.out.print((smallest+1) + " ");
+    } else {
+      System.out.print(0 + " ");
+    }
+    System.out.print(inputWord + " ");
+    for(int i = 0; i < smallestLink.size(); i++){
+      System.out.print(smallestLink.get(i) + " ");
+    }
+    System.out.println();
+
   }
   
   public void findLinks(String word, ArrayList<String> prevLinkedWords){
@@ -55,18 +71,13 @@ public class JoinedUp{
       if(!(linkedWords.contains(words.get(i)))){
         
         //finding the singleJoinedLen
-        int singleJoinedLen = 0;
+        long singleJoinedLen = 0;
         if(word.length() > words.get(i).length()){
           singleJoinedLen = (words.get(i).length())/2;
-//        if(words.get(i).length() % 2 == 0){
-//          singleJoinedLen++;
-//        }
         } else {
           singleJoinedLen = word.length()/2;
-//        if(word.length() % 2 == 0){
-//          singleJoinedLen++;
-//        }
         }
+        
         
         int pos;
         boolean inputLarger;
@@ -89,23 +100,38 @@ public class JoinedUp{
               finished = true;
             }
           } else {
-            System.out.println(singleJoinedLen);
             //if it qualifies to be a singleJoined link.
             if(pos >= singleJoinedLen){
-              System.out.println("--------FOUND LINK------");
+              System.out.println("--------FOUND-LINK------");
+              System.out.println("ADDING: " + words.get(i));
               linkedWords.add(words.get(i));
-              if(words.get(i) == finalWord){
-                return;
+              
+              //if we have found the last word.
+              if(words.get(i).equals(finalWord)){
+                for(int j = 0; j < linkedWords.size(); j++){
+                  System.out.print(linkedWords.get(j) + " ");
+                }
+                System.out.println();
+                ArrayList<String> copyLinkedWords = new ArrayList<String>();
+                for(String s : linkedWords){
+                  copyLinkedWords.add(s);
+                }
+                singleLinkedOptions.add(copyLinkedWords);
+                linkedWords.remove(finalWord);
+                System.out.println("--------DONE--------");
               } else {
                 findLinks(words.get(i), linkedWords);
+                System.out.println("REMOVING: " + words.get(i));
+                linkedWords.remove(words.get(i));
               }
+              
             }
             finished = true;
           }
         }                                                     
       }
       
-      singleLinkedOptions.add(linkedWords);
+      
     }
   }
     

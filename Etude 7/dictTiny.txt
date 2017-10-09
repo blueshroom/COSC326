@@ -172,6 +172,14 @@ kept
 glass
 grass
 cow
+fixture
+bard
+ardent
+read
+fixage
+agent
+entire
+ire
 job
 edge
 sign

@@ -17,7 +17,7 @@ public class Customer implements CustomerInfo {
 
     @Override
     public ArrayList<String> getItems() {
-        ArrayList<String> result = new ArrayList<>();
+        ArrayList<String> result = new ArrayList<String>();
         result.addAll(values.keySet());
         return result;
     }
@@ -26,5 +26,6 @@ public class Customer implements CustomerInfo {
     public int getValue(String item) {
         return values.get(item);
     }
+    
 
 }

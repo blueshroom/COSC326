@@ -12,7 +12,7 @@ import java.util.HashSet;
 public class LengthSite implements SiteInfo {
     
     public HashSet<String> items;
-    public static final C = 10;
+    public static final int C = 10;
 
     public LengthSite(HashSet<String> items) {
         this.items = items;

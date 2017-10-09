@@ -150,7 +150,7 @@ public class GoldInteger {
    
   public void add(String n){ 
     String result = ""; 
-    boolean overflow = false; 
+    boolean overflow = false;
     if(n.length() > d.length()){
       int diff = n.length() - d.length();
       for(int i = d.length()-1; i >= 0; i--){ 
@@ -223,6 +223,9 @@ public class GoldInteger {
       if(i > 0){ 
         result = d.substring(0, i) + result; 
       } 
+    }
+    if(overflow){
+      result = "1" + result;
     }
     d = result;
   } 
@@ -365,6 +368,7 @@ public class GoldInteger {
           this.n = n;
           result = subtractByBorrowing(d.substring(diff), n, 0);
         }
+        d = result;
       } else {
         int diff = n.length() - d.length();
         currentLargest = true;
@@ -442,17 +446,63 @@ public class GoldInteger {
       }
     }
     int stolen;
+    int pos;
+    StringBuilder builder;
     if(steal){
       switch(change){
-        case 1:
-          stolen = Character.getNumericValue(d.charAt((d.length() - result.length())-1));
-          stolen -= 1;
-          d = (stolen + d.substring(0, result.length()-1));
+        case 1:    
+          String tempD = d.substring(0, d.length()-result.length());
+          pos = tempD.length()-1;
+          while(steal){
+            int x = Character.getNumericValue(tempD.charAt(pos));
+            if(x != 0){
+              x--;
+              steal = false;
+              if(tempD.length()-1 < pos){
+                tempD = tempD.substring(0, pos) + x;
+              } else {
+                tempD = (tempD.substring(0, pos) + x) + tempD.substring(pos+1);
+              }
+            } else {
+              pos--;
+            }
+          }
+          builder = new StringBuilder(tempD);          
+          if(tempD.length() > pos+1){
+            //System.out.println("HERED: " + tempD.charAt(pos+1) + "|" + (pos+1));
+            while(pos+1 < tempD.length() && tempD.charAt(pos+1) == '0'){
+              builder.setCharAt(pos+1, '9');
+              pos++;
+            }
+            d = builder.toString();
+          } else {
+            d = tempD;
+          }
           break;
         case 2:
-          stolen = Character.getNumericValue(n.charAt((n.length() - result.length())-1));
-          stolen -= 1;
-          n = (stolen + n.substring(0, result.length()-1));
+          String tempN = n.substring(0, n.length()-result.length());
+          pos = tempN.length()-1;
+          while(steal){
+            int x = Character.getNumericValue(tempN.charAt(pos));
+            if(x != 0){
+              x--;
+              steal = false;
+              if(tempN.length()-1 < pos){
+                tempN = tempN.substring(0, pos) + x;
+              } else {
+                tempN = (tempN.substring(0, pos) + x) + tempN.substring(pos+1);
+              }
+            } else {
+              pos--;
+            }
+          }
+          builder = new StringBuilder(tempN);
+          //System.out.println("HEREN: " + tempN.charAt(pos+1) + "|" + (pos+1));
+          while(pos+1 < tempN.length() && tempN.charAt(pos+1) == '0'){
+            builder.setCharAt(pos+1, '9');
+            pos++;
+          }
+          n = builder.toString();
           break;
         default:
           break;
@@ -547,23 +597,82 @@ public class GoldInteger {
     }
     GoldInteger r = new GoldInteger(d);
     Integer rInt = 0;
-    //while(r.isGreaterThan(n) || r.isEqualTo(n)){
-    while(Integer.parseInt(r.toString()) >= Integer.parseInt(n)){
-      //r.subtract(n.toString());
-      r.setString(Integer.toString(Integer.parseInt(r.toString()) - Integer.parseInt(n)));
-      //result.add("1");
-      rInt += 1;      
+    while(r.isGreaterThan(n) || r.isEqualTo(n)){//----Integrate
+    //while(Long.parseLong(r.toString()) >= Long.parseLong(n)){
+      //System.out.println("::::" + r + "||" + n);
+      r.subtract(n);//----Integrate
+      //r.setString(Integer.toString(Integer.parseInt(r.toString()) - Integer.parseInt(n)));
+      result.add("1");//----Integrate
+      //rInt += 1;      
     }
     remainder = r.toString();
-    d = rInt.toString();
-    
+    //d = rInt.toString();
+    d = result.toString();
     if(neg == true){
       d = "-" + d;
     }
-    // if(d.length()+1 > n.length){
     
     return remainder;
   }
+  
+  public String greatestCommonDivisor(String n){
+    String result = "1";
+    GoldInteger x;
+    GoldInteger y;
+    GoldInteger i;
+    ArrayList<String> divisors = new ArrayList<String>();
+    
+    
+    if(this.isGreaterThan(n)){
+      //if(Long.parseLong(d.toString()) > Long.parseLong(n)){
+      x = new GoldInteger(n);
+      y = new GoldInteger(d);
+    }else{
+      x = new GoldInteger(d);
+      y = new GoldInteger(n);
+    }
+    GoldInteger temp;
+    i = new GoldInteger(x.toString());
+    //Integer i = Integer.parseInt(x.toString());
+    
+    while(!i.toString().equals("0")){
+      System.out.println("HEREX");
+      temp = new GoldInteger(x.toString());
+      if(temp.divide(i.toString()).equals("0")){
+        divisors.add(i.toString());
+      }
+//    while(i != 0){
+//      if(Integer.parseInt(x.toString()) % i == 0){ 
+//        divisors.add(i.toString());
+//      }
+      
+      
+      i.subtract("1");
+      //i -= 1;
+    }
+    
+    for(String s: divisors){
+      System.out.println("HEREY");
+      temp = new GoldInteger(y.toString());
+      if(temp.divide(s).equals("0")){
+        result = s;
+        return result;
+      }
+    }
+//    for(String s: divisors){
+//      if(Integer.parseInt(y.toString()) % Integer.parseInt(s) == 0){
+//        result = s;
+//        return result;
+//      }
+//    }
+    
+    System.out.println(divisors.toString());
+    
+    
+    return result;
+  }
+
+
   
   
   

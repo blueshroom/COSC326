@@ -8,7 +8,7 @@ import java.util.*;
 //    GoldInteger g = new GoldInteger("12345");
 //    GoldInteger d = new GoldInteger("98765");
 //    GoldInteger t = new GoldInteger("-1234");
-//    GoldInteger m = new GoldInteger("1234");
+    GoldInteger m = new GoldInteger("-3");
 //    GoldInteger i = new GoldInteger("123456");
 //    GoldInteger j = new GoldInteger("1234");
 //    GoldInteger l = new GoldInteger("1234");
@@ -27,8 +27,8 @@ import java.util.*;
 //    t.multiply("6789");
 //    System.out.println(t.toString());
 //    System.out.println("------add-------");   
-//    m.add("6789");   
-//    System.out.println(m.toString());
+    m.add("5");   
+    System.out.println(m.toString());
 //    i.add("1234");
 //    System.out.println(i.toString());
 //    j.add("7892");
@@ -80,7 +80,7 @@ import java.util.*;
               n = new GoldInteger(inputArray[0]);
             } else {
               System.out.println(input);
-              System.out.println("# Syntax Error");
+              System.out.println("# Syntax error");
             }
             if(isNumber(inputArray[2])){
               if(inputArray[1].length() == 1 || inputArray[1].equals("gcd")){
@@ -119,21 +119,21 @@ import java.util.*;
                       break;
                     case '=':
                       System.out.println(input);
-                      System.out.println(n.isEqualTo(inputArray[2]));
+                      System.out.println("# " + n.isEqualTo(inputArray[2]));
                       break;
                     default:
                       System.out.println(input);
-                      System.out.println("# Syntax Error");
+                      System.out.println("# Syntax error");
                   }
                 }
               } else {
                 System.out.println(input);
-                System.out.println("# Syntax Error");
+                System.out.println("# Syntax error");
               }
             }
           } else {
             System.out.println(input);
-            System.out.println("# Syntax Error");
+            System.out.println("# Syntax error");
           }
         }
       }

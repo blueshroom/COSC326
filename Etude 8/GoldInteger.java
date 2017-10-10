@@ -3,6 +3,7 @@ import java.util.*;
 public class GoldInteger {
    
   private String d;
+  private String remainder;
   private String n;
    
   public GoldInteger(String digits){ 
@@ -15,6 +16,10 @@ public class GoldInteger {
   
   public void setString(String n){
     this.d = n;
+  }
+  
+  public String getRemainder(){
+    return remainder;
   }
   
   //is our number less than the subject 'n'
@@ -350,9 +355,7 @@ public class GoldInteger {
       d = result;
       //if they are both the same length  
     } else if(n.length() == d.length()){
-      int x = Character.getNumericValue(d.charAt(0)); 
-      int y = Character.getNumericValue(n.charAt(0));
-      if(x > y){
+      if(this.isGreaterThan(n)){
         int diff = d.length() - n.length();
         currentLargest = true;
         if(currentNeg && subjectNeg){
@@ -579,7 +582,7 @@ public class GoldInteger {
     
   }
   
-  public String divide(String n){
+  public void divide(String n){
     GoldInteger result = new GoldInteger("0");
     String remainder;
     boolean neg = false;
@@ -596,80 +599,48 @@ public class GoldInteger {
       n = n.substring(1);
     }
     GoldInteger r = new GoldInteger(d);
-    Integer rInt = 0;
-    while(r.isGreaterThan(n) || r.isEqualTo(n)){//----Integrate
-    //while(Long.parseLong(r.toString()) >= Long.parseLong(n)){
+    while(r.isGreaterThan(n) || r.isEqualTo(n)){
       //System.out.println("::::" + r + "||" + n);
-      r.subtract(n);//----Integrate
-      //r.setString(Integer.toString(Integer.parseInt(r.toString()) - Integer.parseInt(n)));
-      result.add("1");//----Integrate
-      //rInt += 1;      
+      r.subtract(n);
+      result.add("1");
+      //System.out.println("RE: " + result.toString());
+      //System.out.println("X: " + r.toString());
     }
     remainder = r.toString();
-    //d = rInt.toString();
     d = result.toString();
     if(neg == true){
       d = "-" + d;
     }
     
-    return remainder;
+    this.remainder = remainder;
   }
   
+  
   public String greatestCommonDivisor(String n){
-    String result = "1";
-    GoldInteger x;
-    GoldInteger y;
-    GoldInteger i;
-    ArrayList<String> divisors = new ArrayList<String>();
-    
-    
+    GoldInteger dividend;
+    GoldInteger divisor;
+    GoldInteger quotient;
+    GoldInteger remainder = new GoldInteger("-1");
     if(this.isGreaterThan(n)){
-      //if(Long.parseLong(d.toString()) > Long.parseLong(n)){
-      x = new GoldInteger(n);
-      y = new GoldInteger(d);
-    }else{
-      x = new GoldInteger(d);
-      y = new GoldInteger(n);
+      dividend = new GoldInteger(d);
+      divisor = new GoldInteger(n);
+    } else {
+      dividend = new GoldInteger(n);
+      divisor = new GoldInteger(d);
     }
-    GoldInteger temp;
-    i = new GoldInteger(x.toString());
-    //Integer i = Integer.parseInt(x.toString());
-    
-    while(!i.toString().equals("0")){
-      System.out.println("HEREX");
-      temp = new GoldInteger(x.toString());
-      if(temp.divide(i.toString()).equals("0")){
-        divisors.add(i.toString());
-      }
-//    while(i != 0){
-//      if(Integer.parseInt(x.toString()) % i == 0){ 
-//        divisors.add(i.toString());
-//      }
+    while(!remainder.isEqualTo("0")){
+      dividend.divide(divisor.toString());
+      quotient = new GoldInteger(dividend.toString());
+      remainder = new GoldInteger(dividend.getRemainder());
       
-      
-      i.subtract("1");
-      //i -= 1;
-    }
-    
-    for(String s: divisors){
-      System.out.println("HEREY");
-      temp = new GoldInteger(y.toString());
-      if(temp.divide(s).equals("0")){
-        result = s;
-        return result;
+      if(remainder.isEqualTo("0")){
+        return divisor.toString();
       }
+      
+      dividend = divisor;
+      divisor = remainder;
     }
-//    for(String s: divisors){
-//      if(Integer.parseInt(y.toString()) % Integer.parseInt(s) == 0){
-//        result = s;
-//        return result;
-//      }
-//    }
-    
-    System.out.println(divisors.toString());
-    
-    
-    return result;
+    return divisor.toString();
   }
 
 

@@ -130,7 +130,7 @@ public class JoinedUp{
       boolean finished = false;
       while(!finished && pos > singleJoinedLen-1){
         String subString = word.substring(word.length()-pos);
-        System.out.println(subString + ":" + words.get(i).substring(0, subString.length()));
+        //System.out.println(subString + ":" + words.get(i).substring(0, subString.length()));
         if(!(subString.equals(words.get(i).substring(0, pos)))){
           pos--;
           if(pos < 1){
@@ -142,15 +142,15 @@ public class JoinedUp{
             doubly = false;
             //if it qualifies to be a singleJoined link.
             if((pos+1) >= singleJoinedLen){
-              System.out.println("----FOUND-SINGLE-LINK----");
-              System.out.println("ADDING SINGLE: " + words.get(i));
+              //System.out.println("----FOUND-SINGLE-LINK----");
+              //System.out.println("ADDING SINGLE: " + words.get(i));
               singleLinkedWords.add(words.get(i));
               single = true;
             }  
             //if it qualifies to be a doublyJoined link.
             if((pos+1) >= doubleJoinedLen){
-              System.out.println("----FOUND-DOUBLE-LINK----");
-              System.out.println("ADDING DOUBLE: " + words.get(i));
+              //System.out.println("----FOUND-DOUBLE-LINK----");
+              //System.out.println("ADDING DOUBLE: " + words.get(i));
               doubleLinkedWords.add(words.get(i));
               doubly = true;
             }
@@ -169,9 +169,8 @@ public class JoinedUp{
                     smallestSingleLink = singleLinkedWords.size();
                   }
                 }
-                System.out.println("--------DONESINGLE--------");
-                System.out.println(smallestSingleLink);
-                System.out.println("REMOVING SINGLE: " + finalWord);
+                //System.out.println("--------DONESINGLE--------");
+                //System.out.println("REMOVING SINGLE: " + finalWord);
                 singleLinkedWords.remove(finalWord);
                 
               }
@@ -187,9 +186,8 @@ public class JoinedUp{
                     smallestDoubleLink = doubleLinkedWords.size();
                   }
                 }
-                System.out.println("--------DONEDOUBLE--------");
-                System.out.println(smallestDoubleLink);
-                System.out.println("REMOVING DOUBLE: " + finalWord);
+                //System.out.println("--------DONEDOUBLE--------");
+                //System.out.println("REMOVING DOUBLE: " + finalWord);
                 doubleLinkedWords.remove(finalWord);
                 
               }
@@ -201,7 +199,7 @@ public class JoinedUp{
                 doubly = false;
               }
               findLinks(words.get(i), singleLinkedWords, doubleLinkedWords, single, doubly);
-              System.out.println("REMOVING SINGLE+DOUBLE: " + words.get(i));
+              //System.out.println("REMOVING SINGLE+DOUBLE: " + words.get(i));
               singleLinkedWords.remove(words.get(i));
               doubleLinkedWords.remove(words.get(i));
             }
@@ -209,16 +207,16 @@ public class JoinedUp{
           } else if(single && !invalidSingleWord){
             //if it qualifies to be a singleJoined link.
             if((pos+1) >= singleJoinedLen){
-              System.out.println("--------FOUND-SINGLE-LINK------");
-              System.out.println("ADDING: " + words.get(i));
+              //System.out.println("--------FOUND-SINGLE-LINK------");
+              //System.out.println("ADDING: " + words.get(i));
               singleLinkedWords.add(words.get(i));
               
               //if we have found the last word.
               if(words.get(i).equals(finalWord)){
-                for(int j = 0; j < singleLinkedWords.size(); j++){
-                  System.out.print(singleLinkedWords.get(j) + " ");
-                }
-                System.out.println();
+//                for(int j = 0; j < singleLinkedWords.size(); j++){
+//                  System.out.print(singleLinkedWords.get(j) + " ");
+//                }
+//                System.out.println();
                 singleLinkedOptions = new ArrayList<String>();
                 for(String s : singleLinkedWords){
                   singleLinkedOptions.add(s);
@@ -230,9 +228,8 @@ public class JoinedUp{
                     smallestSingleLink = singleLinkedWords.size();
                   }
                 }
-                System.out.println("--------DONESINGLE--------");
-                System.out.println(smallestSingleLink);
-                System.out.println("REMOVING SINGLE: " + finalWord);
+                //System.out.println("--------DONESINGLE--------");
+                //System.out.println("REMOVING SINGLE: " + finalWord);
                 singleLinkedWords.remove(finalWord);
                 
               } else {
@@ -243,15 +240,15 @@ public class JoinedUp{
                 } else {
                   findLinks(words.get(i), singleLinkedWords, doubleLinkedWords, true, false);
                 }
-                System.out.println("REMOVING SINGLE: " + words.get(i));
+                //System.out.println("REMOVING SINGLE: " + words.get(i));
                 singleLinkedWords.remove(words.get(i));
               }
             }
           } else if(doubly && !invalidDoubleWord){
             //if it qualifies to be a doubleJoined link.
             if((pos+1) >= doubleJoinedLen){
-              System.out.println("--------FOUND-DOUBLE-LINK------");
-              System.out.println("ADDING DOUBLE: " + words.get(i));
+              //System.out.println("--------FOUND-DOUBLE-LINK------");
+              //System.out.println("ADDING DOUBLE: " + words.get(i));
               doubleLinkedWords.add(words.get(i));
               
               //if we have found the last word.
@@ -271,9 +268,8 @@ public class JoinedUp{
                     smallestDoubleLink = doubleLinkedWords.size();
                   }
                 }
-                System.out.println("--------DONEDOUBLE--------");
-                System.out.println(smallestDoubleLink);
-                System.out.println("REMOVING DOUBLE: " + finalWord);
+                //System.out.println("--------DONEDOUBLE--------");
+                //System.out.println("REMOVING DOUBLE: " + finalWord);
                 doubleLinkedWords.remove(finalWord);
                 
               } else {
@@ -284,7 +280,7 @@ public class JoinedUp{
                 } else {
                   findLinks(words.get(i), singleLinkedWords, doubleLinkedWords, false, true);
                 }
-                System.out.println("REMOVING DOUBLE: " + words.get(i));
+                //System.out.println("REMOVING DOUBLE: " + words.get(i));
                 doubleLinkedWords.remove(words.get(i));
               }
             }

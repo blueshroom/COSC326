@@ -11,16 +11,16 @@ public class JoinedUp{
   public static int smallestDoubleLink = 0;
 
   public static void main(String[] args){
-    long startTime = System.currentTimeMillis();
+//    long startTime = System.currentTimeMillis();
     
     inputWord = args[0];
     finalWord = args[1];
     JoinedUp demo = new JoinedUp();
     demo.joinedUp();
     
-    long endTime   = System.currentTimeMillis();
-    long totalTime = endTime - startTime;
-    System.out.println("MILLISECONDS: " + totalTime);
+//    long endTime   = System.currentTimeMillis();
+//    long totalTime = endTime - startTime;
+//    System.out.println("MILLISECONDS: " + totalTime);
   }
     
   public void joinedUp(){
@@ -50,7 +50,7 @@ public class JoinedUp{
     
     findLinks(inputWord, new ArrayList<String>(), new ArrayList<String>(), true, true);
     
-    System.out.println("--------SINGLE-RESULT--------");
+    //System.out.println("--------SINGLE-RESULT--------");
     System.out.print((smallestSingleLink+1) + " " + inputWord + " ");
     for(int i = 0; i < singleLinkedOptions.size(); i++){
       System.out.print(singleLinkedOptions.get(i) + " ");
@@ -58,7 +58,7 @@ public class JoinedUp{
     System.out.println();
     
     
-    System.out.println("--------DOUBLE-RESULT--------"); 
+    //System.out.println("--------DOUBLE-RESULT--------"); 
     System.out.print((smallestDoubleLink+1) + " " + inputWord + " ");
     for(int i = 0; i < doubleLinkedOptions.size(); i++){
       System.out.print(doubleLinkedOptions.get(i) + " ");
@@ -129,35 +129,35 @@ public class JoinedUp{
       
       boolean finished = false;
       while(!finished && pos > singleJoinedLen-1){
-        String subString = word.substring(word.length()-pos);
-        //System.out.println(subString + ":" + words.get(i).substring(0, subString.length()));
+        String subString = word.substring(word.length()-pos);    
         if(!(subString.equals(words.get(i).substring(0, pos)))){
           pos--;
           if(pos < 1){
-            finished = true;
+            finished = true;          
           }
         } else {
+          //System.out.println(subString + ":" + words.get(i).substring(0, subString.length()));
           if(single && doubly && !invalidSingleWord && !invalidDoubleWord){
-            single = false;
-            doubly = false;
+            boolean makeSingleFalse = true;
+            boolean makeDoubleFalse = true;
             //if it qualifies to be a singleJoined link.
             if((pos+1) >= singleJoinedLen){
               //System.out.println("----FOUND-SINGLE-LINK----");
               //System.out.println("ADDING SINGLE: " + words.get(i));
               singleLinkedWords.add(words.get(i));
-              single = true;
+              makeSingleFalse = false;
             }  
             //if it qualifies to be a doublyJoined link.
-            if((pos+1) >= doubleJoinedLen){
+            if(pos >= doubleJoinedLen){
               //System.out.println("----FOUND-DOUBLE-LINK----");
               //System.out.println("ADDING DOUBLE: " + words.get(i));
               doubleLinkedWords.add(words.get(i));
-              doubly = true;
+              makeDoubleFalse = false;
             }
             
             //if we have found the last word.
             if(words.get(i).equals(finalWord)){
-              if(single){
+              if(!makeSingleFalse){
                 singleLinkedOptions = new ArrayList<String>();
                 for(String s : singleLinkedWords){
                   singleLinkedOptions.add(s);
@@ -174,7 +174,11 @@ public class JoinedUp{
                 singleLinkedWords.remove(finalWord);
                 
               }
-              if(doubly){               
+              if(!makeDoubleFalse){
+//                for(int j = 0; j < doubleLinkedWords.size(); j++){
+//                  System.out.print(doubleLinkedWords.get(j) + " ");
+//                }
+//                System.out.println();
                 doubleLinkedOptions = new ArrayList<String>();
                 for(String s : doubleLinkedWords){
                   doubleLinkedOptions.add(s);
@@ -193,12 +197,20 @@ public class JoinedUp{
               }
             } else {
               if(smallestSingleLink != 0 && smallestSingleLink <= singleLinkedWords.size()){
-                single = false;
+                makeSingleFalse = true;
               }
               if(smallestDoubleLink != 0 && smallestDoubleLink <= doubleLinkedWords.size()){   
-                doubly = false;
+                makeDoubleFalse = true;
               }
-              findLinks(words.get(i), singleLinkedWords, doubleLinkedWords, single, doubly);
+              if(makeSingleFalse && makeDoubleFalse){
+                findLinks(words.get(i), singleLinkedWords, doubleLinkedWords, false, false);
+              } else if(makeSingleFalse){
+                findLinks(words.get(i), singleLinkedWords, doubleLinkedWords, false, true);
+              } else if(makeDoubleFalse){
+                findLinks(words.get(i), singleLinkedWords, doubleLinkedWords, true, false);
+              } else {
+                findLinks(words.get(i), singleLinkedWords, doubleLinkedWords, true, true);
+              }              
               //System.out.println("REMOVING SINGLE+DOUBLE: " + words.get(i));
               singleLinkedWords.remove(words.get(i));
               doubleLinkedWords.remove(words.get(i));
@@ -246,17 +258,17 @@ public class JoinedUp{
             }
           } else if(doubly && !invalidDoubleWord){
             //if it qualifies to be a doubleJoined link.
-            if((pos+1) >= doubleJoinedLen){
+            if(pos >= doubleJoinedLen){
               //System.out.println("--------FOUND-DOUBLE-LINK------");
               //System.out.println("ADDING DOUBLE: " + words.get(i));
               doubleLinkedWords.add(words.get(i));
               
               //if we have found the last word.
               if(words.get(i).equals(finalWord)){
-                for(int j = 0; j < doubleLinkedWords.size(); j++){
-                  System.out.print(doubleLinkedWords.get(j) + " ");
-                }
-                System.out.println();
+//                for(int j = 0; j < doubleLinkedWords.size(); j++){
+//                  System.out.print(doubleLinkedWords.get(j) + " ");
+//                }
+//                System.out.println();
                 doubleLinkedOptions = new ArrayList<String>();
                 for(String s : doubleLinkedWords){
                   doubleLinkedOptions.add(s);

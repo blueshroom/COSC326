@@ -24,6 +24,7 @@ public class BargainFinder {
     public ArrayList<String> shoppingList() {
       bestList = new ArrayList<String>();
       findItems(bestList);
+      System.out.println(bestValue);
       return bestList;
     }
     
@@ -33,6 +34,7 @@ public class BargainFinder {
           items.add(customer.getItems().get(i));
           if(site.getCost(items) > budget){
             items.remove(customer.getItems().get(i));
+            
             //if the bestList is empty.
             if(bestList.size() == 0){
               int currentValue = 0;
@@ -57,10 +59,20 @@ public class BargainFinder {
             //if we still have money to spend  
           } else {
             findItems(items);
-            items.remove(customer.getItems().get(i));
+            items.remove(customer.getItems().get(i)); 
+            
+            if(bestList.isEmpty()){
+              int currentValue = 0;
+              for(String s: customer.getItems()){
+                bestList.add(s);
+                currentValue += customer.getValue(s);
+              }
+              bestValue = currentValue;
+            }
           }
         }
       }
+      
     }
-
+    
 }

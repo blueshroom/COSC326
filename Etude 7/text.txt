@@ -2,10 +2,6 @@ fixture
 bard
 ardent
 read
-fixage
-agent
-entire
-ire
 of
 from
 my
@@ -24,3 +20,9 @@ term
 me
 ear
 area
+form
+age
+fixage
+agent
+entire
+ire

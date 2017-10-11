@@ -8,8 +8,8 @@ import java.util.*;
 //    GoldInteger g = new GoldInteger("12345");
 //    GoldInteger d = new GoldInteger("98765");
 //    GoldInteger t = new GoldInteger("-1234");
-    GoldInteger m = new GoldInteger("-3");
-//    GoldInteger i = new GoldInteger("123456");
+//    GoldInteger m = new GoldInteger("-3");
+//    GoldInteger i = new GoldInteger("3");
 //    GoldInteger j = new GoldInteger("1234");
 //    GoldInteger l = new GoldInteger("1234");
 //    GoldInteger o = new GoldInteger("-987656");
@@ -27,9 +27,9 @@ import java.util.*;
 //    t.multiply("6789");
 //    System.out.println(t.toString());
 //    System.out.println("------add-------");   
-    m.add("5");   
-    System.out.println(m.toString());
-//    i.add("1234");
+//    m.add("5");   
+//    System.out.println(m.toString());
+//    i.add("-5");
 //    System.out.println(i.toString());
 //    j.add("7892");
 //    System.out.println(j.toString());
@@ -76,60 +76,53 @@ import java.util.*;
           String[] inputArray = input.split(" ");
           //if the split input has 3 strings in it.
           if(inputArray.length == 3){
-            if(isNumber(inputArray[0])){
-              n = new GoldInteger(inputArray[0]);
+            n = new GoldInteger(inputArray[0]);
+            if(inputArray[1].length() == 1 || inputArray[1].equals("gcd")){
+              if(inputArray[1].equals("gcd")){           
+                System.out.println(input);
+                System.out.println("# " + n.greatestCommonDivisor(inputArray[2]));
+              } else {
+                switch(inputArray[1].charAt(0)){
+                  case '+':
+                    n.add(inputArray[2]);
+                    System.out.println(input);
+                    System.out.println("# " + n.toString());
+                    break;
+                  case '-':
+                    n.subtract(inputArray[2]);
+                    System.out.println(input);
+                    System.out.println("# " + n.toString());
+                    break;
+                  case '*':
+                    n.multiply(inputArray[2]);
+                    System.out.println(input);
+                    System.out.println("# " + n.toString());
+                    break;
+                  case '/':
+                    n.divide(inputArray[2]);
+                    System.out.println(input);
+                    System.out.println("# " + n.toString() + " " + n.getRemainder());
+                    break;
+                  case '<':
+                    System.out.println(input);
+                    System.out.println("# " + n.isLessThan(inputArray[2]));
+                    break;
+                  case '>':
+                    System.out.println(input);
+                    System.out.println("# " + n.isGreaterThan(inputArray[2]));
+                    break;
+                  case '=':
+                    System.out.println(input);
+                    System.out.println("# " + n.isEqualTo(inputArray[2]));
+                    break;
+                  default:
+                    System.out.println(input);
+                    System.out.println("# Syntax error");
+                }
+              }
             } else {
               System.out.println(input);
               System.out.println("# Syntax error");
-            }
-            if(isNumber(inputArray[2])){
-              if(inputArray[1].length() == 1 || inputArray[1].equals("gcd")){
-                if(inputArray[1].equals("gcd")){           
-                  System.out.println(input);
-                  System.out.println("# " + n.greatestCommonDivisor(inputArray[2]));
-                } else {
-                  switch(inputArray[1].charAt(0)){
-                    case '+':
-                      n.add(inputArray[2]);
-                      System.out.println(input);
-                      System.out.println("# " + n.toString());
-                      break;
-                    case '-':
-                      n.subtract(inputArray[2]);
-                      System.out.println(input);
-                      System.out.println("# " + n.toString());
-                      break;
-                    case '*':
-                      n.multiply(inputArray[2]);
-                      System.out.println(input);
-                      System.out.println("# " + n.toString());
-                      break;
-                    case '/':
-                      n.divide(inputArray[2]);
-                      System.out.println(input);
-                      System.out.println("# " + n.toString() + " " + n.getRemainder());
-                      break;
-                    case '<':
-                      System.out.println(input);
-                      System.out.println("# " + n.isLessThan(inputArray[2]));
-                      break;
-                    case '>':
-                      System.out.println(input);
-                      System.out.println("# " + n.isGreaterThan(inputArray[2]));
-                      break;
-                    case '=':
-                      System.out.println(input);
-                      System.out.println("# " + n.isEqualTo(inputArray[2]));
-                      break;
-                    default:
-                      System.out.println(input);
-                      System.out.println("# Syntax error");
-                  }
-                }
-              } else {
-                System.out.println(input);
-                System.out.println("# Syntax error");
-              }
             }
           } else {
             System.out.println(input);
@@ -139,19 +132,7 @@ import java.util.*;
       }
     }
   }
-  
-  
-  
-  public static boolean isNumber(String s) {
-    int len = s.length();
-    for (int i = 0; i < len; i++) {
-      if (!Character.isDigit(s.charAt(i))) {
-        return false;
-      }
-    }
-    
-    return true;
-  }
+     
   
   
 }

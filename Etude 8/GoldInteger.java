@@ -155,84 +155,121 @@ public class GoldInteger {
    
   public void add(String n){ 
     String result = ""; 
-    boolean overflow = false;
-    if(n.length() > d.length()){
-      int diff = n.length() - d.length();
-      for(int i = d.length()-1; i >= 0; i--){ 
-        int x = Character.getNumericValue(n.charAt(i+diff)); 
-        int y = Character.getNumericValue(d.charAt(i)); 
-        int z = x + y; 
-        if(overflow){ 
-          z++; 
-        } 
-        overflow = false; 
-        if(z > 9){ 
-          overflow = true; 
-        } 
-        String number = Integer.toString(z);
-        result = number.substring(number.length()-1) + result;
-      }       
-      int i = (n.length() - d.length()); 
-      if(i == 0 && overflow){ 
-        result = "1" + result;
-        d = result;
-        return; 
-      }
-      while(overflow && i > 0){ 
-        int z = Character.getNumericValue(n.charAt(i)); 
-        z++; 
-        overflow = false; 
-        if(z > 9){ 
-          overflow = true; 
-        } 
-        String number = Integer.toString(z);
-        result = number.substring(number.length()-1) + result;
-        i--; 
-      } 
-      if(i > 0){
-        result = n.substring(0, i) + result; 
-      } 
-    } else {
-      int diff = d.length() - n.length();
-      for(int i = n.length()-1; i >= 0; i--){ 
-        int x = Character.getNumericValue(n.charAt(i)); 
-        int y = Character.getNumericValue(d.charAt(i+diff)); 
-        int z = x + y; 
-        if(overflow){ 
-          z++; 
-        } 
-        overflow = false; 
-        if(z > 9){ 
-          overflow = true; 
+    boolean done = false;
+    
+    //dealing with negatives
+    if(d.charAt(0) == '-' && n.charAt(0) == '-'){
+      d = d.substring(1);
+      n = n.substring(1);
+      this.add(n);
+      d = "-" + d;
+      done = true;
+    } else if(n.charAt(0) == '-'){
+      if(this.isGreaterThan(n.substring(1))){
+        this.subtract(n.substring(1));
+        done = true;
+      } else {
+        GoldInteger x = new GoldInteger(n.substring(1));
+        x.subtract(d);
+        d = x.toString();
+        if(!d.equals("0")){
+          d = "-" + d;          
         }
-        String number = Integer.toString(z);
-        result = number.substring(number.length()-1) + result; 
-      }      
-      int i = (d.length() - n.length()); 
-      if(i == 0 && overflow){ 
-        result = "1" + result; 
-        d = result;
-        return;
-      } 
-      while(overflow && i > 0){ 
-        int z = Character.getNumericValue(d.charAt(i-1)); 
-        z++; 
-        overflow = false; 
-        if(z > 9){ 
-          overflow = true; 
-        } 
-        String number = Integer.toString(z);
-        result = number.substring(number.length()-1) + result; 
-        i--; 
+        done = true;
       }
-      if(i > 0){ 
-        result = d.substring(0, i) + result; 
-      } 
+    } else if(d.charAt(0) == '-'){
+      d = d.substring(1);
+      if(this.isGreaterThan(n)){
+        this.subtract(n);
+        if(!d.equals("0")){
+          d = "-" + d;
+        }
+      } else {
+        GoldInteger x = new GoldInteger(n);
+        x.subtract(d);
+        d = x.toString();        
+      }
+    //they are either both negative or not.
+    } else if(done != true){
+      boolean overflow = false;
+      if(n.length() > d.length()){
+        int diff = n.length() - d.length();
+        for(int i = d.length()-1; i >= 0; i--){ 
+          int x = Character.getNumericValue(n.charAt(i+diff)); 
+          int y = Character.getNumericValue(d.charAt(i)); 
+          int z = x + y; 
+          if(overflow){ 
+            z++; 
+          } 
+          overflow = false; 
+          if(z > 9){ 
+            overflow = true; 
+          } 
+          String number = Integer.toString(z);
+          result = number.substring(number.length()-1) + result;
+        }       
+        int i = (n.length() - d.length()); 
+        if(i == 0 && overflow){ 
+          result = "1" + result;
+          d = result;
+          return; 
+        }
+        while(overflow && i > 0){ 
+          int z = Character.getNumericValue(n.charAt(i)); 
+          z++; 
+          overflow = false; 
+          if(z > 9){ 
+            overflow = true; 
+          } 
+          String number = Integer.toString(z);
+          result = number.substring(number.length()-1) + result;
+          i--; 
+        } 
+        if(i > 0){
+          result = n.substring(0, i) + result; 
+        } 
+      } else {
+        int diff = d.length() - n.length();
+        for(int i = n.length()-1; i >= 0; i--){ 
+          int x = Character.getNumericValue(n.charAt(i)); 
+          int y = Character.getNumericValue(d.charAt(i+diff)); 
+          int z = x + y; 
+          if(overflow){ 
+            z++; 
+          } 
+          overflow = false; 
+          if(z > 9){ 
+            overflow = true; 
+          }
+          String number = Integer.toString(z);
+          result = number.substring(number.length()-1) + result; 
+        }      
+        int i = (d.length() - n.length()); 
+        if(i == 0 && overflow){ 
+          result = "1" + result; 
+          d = result;
+          return;
+        } 
+        while(overflow && i > 0){ 
+          int z = Character.getNumericValue(d.charAt(i-1)); 
+          z++; 
+          overflow = false; 
+          if(z > 9){ 
+            overflow = true; 
+          } 
+          String number = Integer.toString(z);
+          result = number.substring(number.length()-1) + result; 
+          i--; 
+        }
+        if(i > 0){ 
+          result = d.substring(0, i) + result; 
+        } 
+      }
+      if(overflow){
+        result = "1" + result;
+      }
+      d = result;
     }
-    if(overflow){
-      result = "1" + result;
-    }
-    d = result;
   } 
   
   public String addOpo(String n){ 

@@ -63,27 +63,30 @@ public class JoinedUp2{
       }
       //while we are still in the current dictionary we want to look through.
       while(j <= firstCharIndex[set]){
-        if(word.substring(i).equals(words.get(j).substring(0, i+1))){
-          
-          //if it qualifies use that word for the next recursion.
-          if(word.length() > words.get(j).length()){
-            double half = words.get(j).length();
-            half = half/2;
-            if((words.get(j).length() - (i+1)) >= half){
-              prevSingleLinkedWords.add(words.get(j));
-              findSingleLinks(words.get(j), prevSingleLinkedWords);
-              prevSingleLinkedWords.remove(words.get(j));
+        //checking that the substring of our word doesnt go longer than the one we are checking.
+        if(i > words.get(j).length()-1){
+          if(word.substring(i).equals(words.get(j).substring(0, i+1))){
+            
+            //if it qualifies use that word for the next recursion.
+            if(word.length() > words.get(j).length()){
+              double half = words.get(j).length();
+              half = half/2;
+              if((words.get(j).length() - (i+1)) >= half){
+                prevSingleLinkedWords.add(words.get(j));
+                findSingleLinks(words.get(j), prevSingleLinkedWords);
+                prevSingleLinkedWords.remove(words.get(j));
+              }
+            } else {
+              double half = word.length();
+              half = half/2;
+              if((word.length() - (i+1)) >= half){
+                prevSingleLinkedWords.add(words.get(j));
+                findSingleLinks(words.get(j), prevSingleLinkedWords);
+                prevSingleLinkedWords.remove(words.get(j));
+              }
             }
-          } else {
-            double half = word.length();
-            half = half/2;
-            if((word.length() - (i+1)) >= half){
-              prevSingleLinkedWords.add(words.get(j));
-              findSingleLinks(words.get(j), prevSingleLinkedWords);
-              prevSingleLinkedWords.remove(words.get(j));
-            }
+            
           }
-          
         }
         j++;
       }

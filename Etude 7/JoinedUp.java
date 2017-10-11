@@ -30,23 +30,23 @@ public class JoinedUp{
       words.add(word);
     }
     
-//    Collections.sort(words);
-//    for(int i = 0; i < words.size(); i++){
-//      System.out.println(words.get(i));
-//    }
+    Collections.sort(words);
+    for(int i = 0; i < words.size(); i++){
+      System.out.println(words.get(i));
+    }
     
     //find the indexs of the first letter of each word
-//    char subject = 'a';
-//    firstCharIndex[((int)subject)-97] = 0;
-//    for(int i = 0; i < words.size(); i++){
-//      if(words.get(i).charAt(0) > subject){
-//        for(int j = subject; j < (words.get(i).charAt(0)); j++){
-//          firstCharIndex[j-97] = i;
-//        }
-//        subject = words.get(i).charAt(0);
-//        firstCharIndex[((int)subject)-97] = i; 
-//      }
-//    }
+    char subject = 'a';
+    firstCharIndex[((int)subject)-97] = 0;
+    for(int i = 0; i < words.size(); i++){
+      if(words.get(i).charAt(0) > subject){
+        for(int j = subject; j < (words.get(i).charAt(0)); j++){
+          firstCharIndex[j-97] = i;
+        }
+        subject = words.get(i).charAt(0);
+        firstCharIndex[((int)subject)-97] = i; 
+      }
+    }
     
     findLinks(inputWord, new ArrayList<String>(), new ArrayList<String>(), true, true);
     

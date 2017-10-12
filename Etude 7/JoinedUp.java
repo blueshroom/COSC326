@@ -31,9 +31,6 @@ public class JoinedUp{
     }
     
     Collections.sort(words);
-    for(int i = 0; i < words.size(); i++){
-      System.out.println(words.get(i));
-    }
     
     //find the indexs of the first letter of each word
     char subject = 'a';

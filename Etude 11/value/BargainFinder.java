@@ -23,15 +23,24 @@ public class BargainFinder {
     
     public ArrayList<String> shoppingList() {
       bestList = new ArrayList<String>();
-      findItems(bestList);
+      findItems(bestList, customer.getItems().size());
+      if(bestList.isEmpty()){
+        int currentValue = 0;
+        for(String s: customer.getItems()){
+          bestList.add(s);
+          currentValue += customer.getValue(s);
+        }
+        bestValue = currentValue;
+      }
       System.out.println(bestValue);
       return bestList;
     }
     
-    public void findItems(ArrayList<String> items){
-      for(int i = 0; i < customer.getItems().size(); i++){
+    public void findItems(ArrayList<String> items, int pos){
+      for(int i = pos; i < customer.getItems().size(); i++){
         if(!items.contains(customer.getItems().get(i))){
           items.add(customer.getItems().get(i));
+          //if we have blown our budget
           if(site.getCost(items) > budget){
             items.remove(customer.getItems().get(i));
             
@@ -58,17 +67,8 @@ public class BargainFinder {
             }
             //if we still have money to spend  
           } else {
-            findItems(items);
-            items.remove(customer.getItems().get(i)); 
-            
-            if(bestList.isEmpty()){
-              int currentValue = 0;
-              for(String s: customer.getItems()){
-                bestList.add(s);
-                currentValue += customer.getValue(s);
-              }
-              bestValue = currentValue;
-            }
+            findItems(items, pos+1);
+            items.remove(customer.getItems().get(i));                        
           }
         }
       }

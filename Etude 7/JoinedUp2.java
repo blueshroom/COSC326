@@ -48,8 +48,70 @@ public class JoinedUp2{
       }
     }
     
-    findSingleLinks(inputWord, new ArrayList<String>());
-    findDoubleLinks(inputWord, new ArrayList<String>());
+    
+    double half;
+    if(inputWord.length() > finalWord.length()){
+      for(int i = 0; i < finalWord.length(); i++){
+        if(finalWord.substring(i).equals(inputWord.substring(0, finalWord.length()-(i)))){
+          //checking singleLen
+          half = finalWord.length();             
+          half = half/2;
+          half = Math.round(half);
+          if(i+1 >= half){
+            singleLinkedOption.add(finalWord);
+            smallestSingleLink = singleLinkedOption.size();
+          }
+          //checking doubleLen
+          half = inputWord.length();             
+          half = half/2;
+          half = Math.round(half);
+          if(i == 0){
+            i++;
+          }
+          if(i+1 > half){
+            doubleLinkedOption.add(finalWord);
+            smallestDoubleLink = doubleLinkedOption.size();
+          }
+        }
+      }
+      if(smallestSingleLink == words.size()){
+        findSingleLinks(inputWord, new ArrayList<String>());
+      }
+      if(smallestDoubleLink == words.size()){
+        findDoubleLinks(inputWord, new ArrayList<String>());
+      }
+    } else {
+      for(int i = 0; i < inputWord.length(); i++){
+        if(inputWord.substring(i).equals(finalWord.substring(0, inputWord.length()-(i)))){
+          //checking singleLen
+          half = inputWord.length();             
+          half = half/2;
+          half = Math.round(half);
+          if(i+1 >= half){
+            singleLinkedOption.add(finalWord);
+            smallestSingleLink = singleLinkedOption.size();
+          }
+          //checking doubleLen
+          half = finalWord.length();             
+          half = half/2;
+          half = Math.round(half);
+          if(i == 0){
+            i++;
+          }
+          if(i+1 > half){
+            doubleLinkedOption.add(finalWord);
+            smallestDoubleLink = doubleLinkedOption.size();
+          }
+        }
+      }
+      if(smallestSingleLink == words.size()){
+        findSingleLinks(inputWord, new ArrayList<String>());
+      }
+      if(smallestDoubleLink == words.size()){
+        findDoubleLinks(inputWord, new ArrayList<String>());
+      }
+    }
+       
     
     if(smallestSingleLink == words.size()){
         System.out.println("0");
@@ -102,7 +164,7 @@ public class JoinedUp2{
                   half = half/2;
                   half = Math.round(half);
                   //System.out.println("HALF: " + half);
-                  if(word.length()-1 > half){
+                  if(words.get(j).substring(0, word.length()-(i)).length() >= half){
                     prevSingleLinkedWords.add(words.get(j));
                     //System.out.println("ADDING: " + words.get(j));
                     //if we havn't found the last word.
@@ -126,7 +188,7 @@ public class JoinedUp2{
                   half = half/2;
                   half = Math.round(half);
                   //System.out.println("HALF: " + half);
-                  if((words.get(j).length()) > half){
+                  if((word.substring(i).length()) >= half){
                     prevSingleLinkedWords.add(words.get(j));
                     //System.out.println("ADDING: " + words.get(j));
                     //if we havn't found the last word.
